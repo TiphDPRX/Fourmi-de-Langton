@@ -5,4 +5,3 @@
 # Ania AOUAOUCHE
 # https://github.com/uvsq22102500/Fourmi-de-Langton
 
-ffff
