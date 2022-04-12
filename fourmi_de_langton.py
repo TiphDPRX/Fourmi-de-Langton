@@ -17,6 +17,7 @@ N = 500
 # creation de la fenetre principale ------------------------------------------
 window = Tk()
 window.geometry("600x600")
+window.title("Fourmi de Langton")
 canvas = Canvas( window , height = H , width = W )
 ''' changer l'icone en fourmi '''
 frame = Frame (window , height = 100 , width = 100)
@@ -41,9 +42,9 @@ def retour ():
     pass
 
 # les bouttons -----------------------------------------------------------------
-button_play = Button (frame , text = 'Play', command = play ) 
-button_pause = Button (frame , text = 'Pause', command = pause )
-button_next = Button (frame , text = 'Next', command = next)
+button_play = Button (frame , text = ' Play  ', command = play ) 
+button_pause = Button (frame , text = ' Pause', command = pause )
+button_next = Button (frame , text = ' Next ', command = next)
 button_return = Button (frame , text = 'Retrun', command = retour)
 
 
