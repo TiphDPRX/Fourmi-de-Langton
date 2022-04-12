@@ -19,7 +19,7 @@ window = Tk()
 window.geometry("600x600")
 canvas = Canvas( window , height = H , width = W )
 ''' changer l'icone en fourmi '''
-frame = Frame (window , height = 100 , width = 100 )
+frame = Frame (window , height = 100 , width = 100)
 
 # creation de la grille ------------------------------------------------------
 for i in range (N):
@@ -41,10 +41,10 @@ def retour ():
     pass
 
 # les bouttons -----------------------------------------------------------------
-button_play = Button (frame , text = 'Play', highlightbackground = "black", command = play ) 
-button_pause = Button (frame , text = 'Pause', highlightbackground = "black", command = pause )
-button_next = Button (frame , text = 'Next', highlightbackground = "black", command = next)
-button_return = Button (frame , text = 'Retrun', highlightbackground = "black", command = retour)
+button_play = Button (frame , text = 'Play', command = play ) 
+button_pause = Button (frame , text = 'Pause', command = pause )
+button_next = Button (frame , text = 'Next', command = next)
+button_return = Button (frame , text = 'Retrun', command = retour)
 
 
 # affichage----------------------------------------------------------------------
