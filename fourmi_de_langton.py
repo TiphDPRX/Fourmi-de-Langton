@@ -41,10 +41,10 @@ def retour ():
     pass
 
 # les bouttons -----------------------------------------------------------------
-button_play = Button (frame , text = 'Play', bg = 'black' , fg = 'white', command = play ) 
-button_pause = Button (frame , text = 'Pause', bg = 'black' , fg = 'white', command = pause )
-button_next = Button (frame , text = 'Next', bg = 'black' , fg = 'white', command = next)
-button_return = Button (frame , text = 'Retrun', bg = 'black' , fg = 'white', command = retour)
+button_play = Button (frame , text = 'Play', highlightbackground = "black", command = play ) 
+button_pause = Button (frame , text = 'Pause', highlightbackground = "black", command = pause )
+button_next = Button (frame , text = 'Next', highlightbackground = "black", command = next)
+button_return = Button (frame , text = 'Retrun', highlightbackground = "black", command = retour)
 
 
 # affichage----------------------------------------------------------------------
