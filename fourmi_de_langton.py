@@ -47,6 +47,9 @@ button_pause = Button (frame , text = ' Pause', command = pause )
 button_next = Button (frame , text = ' Next ', command = next)
 button_return = Button (frame , text = 'Retrun', command = retour)
 
+# creation de notre "fourmi"
+
+
 
 # affichage----------------------------------------------------------------------
 canvas.pack (side = TOP)
