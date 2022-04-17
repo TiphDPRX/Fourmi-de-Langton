@@ -8,27 +8,54 @@
 from tkinter import *
 
 # constantes -----------------------------------------------------------------
-H = 500
-W = 500
+H = 500 #canvas
+W = 500 # canvas
+LARGEUR = 600
+HAUTEUR = 600
 
-N = 500
+N = 48
+
+# variables globales ------------------------
+
+
+
+
+# liste ---------------------
+grille = []
+
 
 
 # creation de la fenetre principale ------------------------------------------
 window = Tk()
 window.geometry("600x600")
 window.title("Fourmi de Langton")
-canvas = Canvas( window , height = H , width = W )
+canvas = Canvas( window , height = HAUTEUR , width = LARGEUR )
 ''' changer l'icone en fourmi '''
 frame = Frame (window , height = 100 , width = 100)
 
-# creation de la grille ------------------------------------------------------
-for i in range (N):
-    for j in range (N):
-        canvas.create_rectangle( (10*i , 10*j) , ( (10*(i+1)) , (10*(j+1)) ) , fill='white')
 
 
 # les fonctions ---------------------------------------------------------------
+
+def initialisation():
+    """Initialise la grille blanche et chaque carre de la grille aura son identifiant enregistre dans la liste grille"""    
+    # Cette liste "grille" à deux dimensions permet d'associer une valeur à chaque carré qui sera crée par la suite par la variable "carre",
+    # On pourra alors agir sur chaque carre de manière individuel
+    for i in range(N):
+        grille.append([0]*N)
+
+    #Création des carrés
+    for i in range(N):
+        for j in range(N):
+            carre = canvas.create_rectangle(LARGEUR//N*i, HAUTEUR//N*j,LARGEUR//N*(i+1), HAUTEUR//N*(j+1), fill = "white")
+            grille[i][j] = carre
+
+def fourmi(x, y):
+    """Initialise la fourmi (temporaire qui sera un carré) au milieu du canevas"""
+    canvas.itemconfigure(grille[x][y], fill = "blue")
+            
+
+
 def play ():
     pass
 
@@ -41,11 +68,12 @@ def next ():
 def retour ():
     pass
 
-# les bouttons -----------------------------------------------------------------
+
+# les boutons -----------------------------------------------------------------
 button_play = Button (frame , text = ' Play  ', command = play ) 
 button_pause = Button (frame , text = ' Pause', command = pause )
 button_next = Button (frame , text = ' Next ', command = next)
-button_return = Button (frame , text = 'Retrun', command = retour)
+button_return = Button (frame , text = 'Return', command = retour)
 
 # creation de notre "fourmi"
 
@@ -59,5 +87,10 @@ button_play.grid (row = 0, column =0)
 button_pause.grid (row = 0, column =1)
 button_next.grid (row = 1, column =0)
 button_return.grid (row = 1, column =1)
+
+initialisation()
+fourmi(N//2, N//2)
+
+
 
 window.mainloop()
