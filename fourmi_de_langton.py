@@ -8,16 +8,12 @@
 from tkinter import *
 
 # constantes -----------------------------------------------------------------
-H = 500 #canvas
-W = 500 # canvas
-LARGEUR = 600
-HAUTEUR = 600
+LARGEUR = 500
+HAUTEUR = 500
 
 N = 48
 
 # variables globales ------------------------
-
-
 
 
 # liste ---------------------
@@ -30,15 +26,14 @@ window = Tk()
 window.geometry("600x600")
 window.title("Fourmi de Langton")
 canvas = Canvas( window , height = HAUTEUR , width = LARGEUR )
-''' changer l'icone en fourmi '''
 frame = Frame (window , height = 100 , width = 100)
-
+''' changer l'icone en fourmi '''
 
 
 # les fonctions ---------------------------------------------------------------
 
 def initialisation():
-    """Initialise la grille blanche et chaque carre de la grille aura son identifiant enregistre dans la liste grille"""    
+    """Initialise la grille blanche et enregistre l'identifiant de chaque carre dans la liste"""    
     # Cette liste "grille" à deux dimensions permet d'associer une valeur à chaque carré qui sera crée par la suite par la variable "carre",
     # On pourra alors agir sur chaque carre de manière individuel
     for i in range(N):
