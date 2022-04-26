@@ -13,9 +13,9 @@ from tkinter import *
 LARGEUR = 645
 HAUTEUR = 645
 
-N = 11 # (a modifier une fois que le programme fonctionne)
+N = 11 #(a modifier une fois que le programme fonctionne)
 
-L = LARGEUR//N  #cote d'un carré de notre canvas
+L = LARGEUR//N  #coté d'un carré de notre canvas
 
 BLANC = 0
 NOIR = 1
