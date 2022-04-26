@@ -13,7 +13,7 @@ from tkinter import *
 LARGEUR = 645
 HAUTEUR = 645
 
-N = 5 # (a modifier une fois que le programme fonction)
+N = 5 # (a modifier une fois que le programme fonctionne)
 
 L = LARGEUR//N  #cote d'un carré de notre canvas
 
@@ -80,7 +80,7 @@ def fourmi():
     x_mil = LARGEUR//2  #milieu de notre canvas en x
     y_mil = HAUTEUR//2  #milieu de notre canvas en y
 
-    """verifier le cas ou le nombre de carré est pair ou impair et placer la fleche au milieu"""
+    """verifier le cas ou le nombre de carrés est pair ou impair et placer la fleche au milieu"""
     if N%2 != 0 :
         x1 = x_mil 
         y1 = y_mil+ L/2
