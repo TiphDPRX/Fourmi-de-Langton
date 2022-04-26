@@ -7,13 +7,13 @@
 
 from tkinter import *
 
-#---------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------
 # constantes 
-#---------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------
 LARGEUR = 645
 HAUTEUR = 645
 
-N = 5 # (a modifier une fois que le programme fonctionne)
+N = 11 # (a modifier une fois que le programme fonctionne)
 
 L = LARGEUR//N  #cote d'un carré de notre canvas
 
@@ -28,9 +28,9 @@ EST = 3
 
 COULEUR_FLECHE = "blue"
 
-#---------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------
 # variables globales 
-#---------------------------------------------------------------------------------
+#--------------------------------------------------------------------------------------------------
 
 # liste 
 grille = []
@@ -51,21 +51,23 @@ canvas = Canvas( window , height = HAUTEUR , width = LARGEUR )
 frame = Frame (window , height = 100 , width = 100)
 fleche = Canvas (window)
 
-# les fonctions ---------------------------------------------------------------
+# -----------------------------------------------------------------------------------------------
+# les fonctions
+# -----------------------------------------------------------------------------------------------
 
 # fonction d'initialisation
+
 def initialisation(): 
     global grille, grille_canvas
     """initialisation de la grille a 0 """
     """cette grille nous permettra plus tard de savoir de quelle couleur est notre carré """
     """pour ensuite pouvoir la modifier (en 1 ou 0 ; 1 etant le noir ; 0 etant le blanc) """
-
     for i in range(N):
         grille.append([0]*N)
         grille_canvas.append([0]*N)
 
     """ une deuxieme grille a 2D pour la creation de notre environnement """ 
-    """une troisieme grille a 2D pour garder les coordonnées de nos carrés de notre environnement"""
+    """ une troisieme grille a 2D pour garder les coordonnées de nos carrés de notre environnement"""
     for i in range(N):
         for j in range(N):
             x, y = j*L , i*L #ca nous permet de nous positionner en fonction de i et de j
@@ -98,9 +100,8 @@ def fourmi():
     
   
 def fourmi_update():
-    global fleche
+    global fleche, position_i, position_j
     
-
     if DIRECTION == NORD:
         x1 = position_j * L + L/2   
         y1 = position_i *L + L
@@ -116,23 +117,22 @@ def fourmi_update():
         canvas.coords ( fleche , x1, y1, x2, y2 )
       
     elif DIRECTION == EST:
-        x1 = position_j * L  
-        y1 = position_i *L - L/2
-        x2 = position_j * L + L
-        y2 = position_i *L - L/2
+        x1 = position_j * L 
+        y1 = position_i *L + L/2
+        x2 = position_j * L + L 
+        y2 = position_i *L + L/2
         canvas.coords ( fleche , x1, y1, x2, y2 )
 
     elif DIRECTION == WEST:
         x2 = position_j * L  
-        y2= position_i *L - L/2
+        y2= position_i *L + L/2
         x1 = position_j * L + L
-        y1 = position_i *L - L/2
+        y1 = position_i *L + L/2
         canvas.coords ( fleche , x1, y1, x2, y2 )
+    
    
         
         
-
-
 def play ():
     global position_i, position_j , DIRECTION, grille , grille_canvas
     
@@ -147,7 +147,6 @@ def play ():
             DIRECTION = EST
             position_j = (position_j+1)%N
             
-            
         elif DIRECTION == SUD:
             DIRECTION = WEST
             position_j = (position_j-1)%N
@@ -160,9 +159,6 @@ def play ():
             DIRECTION = NORD
             position_i = (position_i-1)%N
         
-         
-            
-
     else :
         grille[position_i][position_j] = BLANC 
         canvas.itemconfig( grille_canvas[position_i][position_j] ,  fill = "white")
@@ -172,7 +168,7 @@ def play ():
             DIRECTION = WEST
             
         elif DIRECTION == SUD:
-            position_j = (position_j+1)%N       
+            position_j = (position_j+1)%N     
             DIRECTION = EST
 
         elif DIRECTION == EST:
