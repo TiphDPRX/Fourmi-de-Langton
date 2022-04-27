@@ -6,7 +6,7 @@
 # https://github.com/uvsq22102500/Fourmi-de-Langton
 
 from tkinter import *
-
+from threading import Timer
 #--------------------------------------------------------------------------------------------------
 # constantes 
 #--------------------------------------------------------------------------------------------------
@@ -45,7 +45,7 @@ DIRECTION = NORD
 
 # creation de la fenetre principale 
 window = Tk()
-window.geometry("800x800")
+window.geometry("700x700")
 window.title("Fourmi de Langton")
 canvas = Canvas( window , height = HAUTEUR , width = LARGEUR )
 frame = Frame (window , height = 100 , width = 100)
@@ -130,6 +130,8 @@ def fourmi_update():
         y1 = position_i *L + L/2
         canvas.coords ( fleche , x1, y1, x2, y2 )
     
+    t= Timer (0.5 , play)
+    t.start()
    
         
         
