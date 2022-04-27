@@ -130,8 +130,7 @@ def fourmi_update():
         y1 = position_i *L + L/2
         canvas.coords ( fleche , x1, y1, x2, y2 )
     
-    t= Timer (0.5 , play)
-    t.start()
+    
    
         
         
