@@ -7,15 +7,16 @@
 
 from tkinter import *
 from threading import Timer
+
 #--------------------------------------------------------------------------------------------------
 # constantes 
 #--------------------------------------------------------------------------------------------------
 LARGEUR = 645
 HAUTEUR = 645
 
-N = 11 #(a modifier une fois que le programme fonctionne)
+N = 9 # (a modifier une fois que le programme fonctionne)
 
-L = LARGEUR//N  #coté d'un carré de notre canvas
+L = LARGEUR//N  #cote d'un carré de notre canvas
 
 BLANC = 0
 NOIR = 1
@@ -129,11 +130,11 @@ def fourmi_update():
         x1 = position_j * L + L
         y1 = position_i *L + L/2
         canvas.coords ( fleche , x1, y1, x2, y2 )
-    
+
+    t = Timer(0.5 , play)
+    t.start()
     
    
-        
-        
 def play ():
     global position_i, position_j , DIRECTION, grille , grille_canvas
     
