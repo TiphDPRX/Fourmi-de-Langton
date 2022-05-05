@@ -29,6 +29,8 @@ EST = 3
 
 COULEUR_FLECHE = "blue"
 
+mouv = True
+
 #--------------------------------------------------------------------------------------------------
 # variables globales 
 #--------------------------------------------------------------------------------------------------
@@ -101,7 +103,7 @@ def fourmi():
     
   
 def fourmi_update():
-    global fleche, position_i, position_j
+    global fleche, position_i, position_j, id_after
     
     if DIRECTION == NORD:
         x1 = position_j * L + L/2   
@@ -130,9 +132,7 @@ def fourmi_update():
         x1 = position_j * L + L
         y1 = position_i *L + L/2
         canvas.coords ( fleche , x1, y1, x2, y2 )
-
-    t = Timer(0.5 , play)
-    t.start()
+    id_after = canvas.after(1000, play)
     
    
 def play ():
@@ -142,7 +142,7 @@ def play ():
 
     if grille[position_i][position_j] == BLANC :
         grille[position_i][position_j] = NOIR 
-        canvas.itemconfig( grille_canvas[position_i][position_j] ,  fill = "black")
+        canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "black")
 
         """changement de direction si la couleur du carré est blanc"""
         if DIRECTION == NORD:
@@ -163,7 +163,7 @@ def play ():
         
     else :
         grille[position_i][position_j] = BLANC 
-        canvas.itemconfig( grille_canvas[position_i][position_j] ,  fill = "white")
+        canvas.itemconfigure(grille_canvas[position_i][position_j], fill = "white")
         """changement de direction si la couleur du carré est noir"""
         if DIRECTION == NORD:
             position_j = (position_j-1)%N
@@ -180,16 +180,63 @@ def play ():
         elif DIRECTION == WEST:
             position_i = (position_i+1)%N
             DIRECTION = SUD
-        
+       
     fourmi_update()
 
+def enregistre():
+    """Ecrit la taille de la grille et les valeurs de la liste
+    grille dans le fichier enregistrement.txt"""
+    fic = open("enregistrement.txt", "w")
+    fic.write(str(N) + "\n")
+    fic.write(str(position_i)+ "\n")
+    fic.write(str(position_j)+ "\n")
+    for i in range(N):
+        for j in range(N):
+            fic.write(str(grille[i][j])+ "\n")
+    fic.close()
+
+def charge_grille():
+    """Lit le fichier enregistrement.txt et affiche dans le canvas la grille lu"""
+    global N, position_i, position_j
+    fic = open("enregistrement.txt", "r")
+    taille = fic.readline()
+    position1 = fic.readline()
+    position2 = fic.readline()
+    N = int(taille)
+    position_i = int(position1)
+    position_j = int(position2)
+    canvas.delete()
+    # initialisation pour avoir des listes à la bonne taille
+    initialisation()
+    i = j = 0
+    for ligne in fic:
+        grille[i][j] = int(ligne)
+        j += 1
+        if j == N:
+            j = 0
+            i += 1
+    print(grille)
+    for i in range(N):
+        for j in range(N):
+            if grille[i][j]== 0:
+                canvas.itemconfigure(grille_canvas[i][j], fill = "white")
+            if grille[i][j]==1:  
+                canvas.itemconfigure(grille_canvas[i][j], fill = "black")
+    fourmi()
+    demarrer()
+    fic.close()
 
 
-
-
-
-def pause ():
-    pass
+def demarrer ():
+    """Change le bouton "play" en bouton "pause", active la fonction play"""
+    global mouv, id_after
+    if mouv:
+        button_play.config(text="Pause")
+        play()
+    else:
+        canvas.after_cancel(id_after)
+        button_play.config(text="Play")
+    mouv = not mouv #ici, on utilise "not" et non "false" pour avoir tjs le contraire de mouv
 
 def next ():
     pass
@@ -199,10 +246,11 @@ def retour ():
 
 
 # les boutons -----------------------------------------------------------------
-button_play = Button (frame , text = ' Play  ', command = play ) 
-button_pause = Button (frame , text = ' Pause', command = pause )
+button_play = Button (frame , text = ' Play  ', command = demarrer ) 
 button_next = Button (frame , text = ' Next ', command = next)
 button_return = Button (frame , text = 'Return', command = retour)
+button_save = Button(frame, text="Enregistre", command=enregistre)
+button_load = Button(frame, text="Charger grille", command=charge_grille)
 
 # creation de notre "fourmi"
 
@@ -213,13 +261,14 @@ canvas.pack (side = TOP)
 frame.pack (side = BOTTOM )
 
 button_play.grid (row = 0, column =0)
-button_pause.grid (row = 0, column =1)
 button_next.grid (row = 1, column =0)
 button_return.grid (row = 1, column =1)
+button_save.grid(row = 0, column = 2)
+button_load.grid(row = 1, column = 2)
 
 initialisation()
 fourmi()
-
+print(grille)
 
 
 window.mainloop()
