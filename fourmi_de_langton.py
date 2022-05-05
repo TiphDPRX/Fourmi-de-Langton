@@ -1,13 +1,11 @@
 #################################
 # Groupe MI TD2 (groupe de projet n°3)
+# Ania AOUAOUCHE
 # Tiphanie DEPREAUX
 # Baptiste PARIS
-# Ania AOUAOUCHE
 # https://github.com/uvsq22102500/Fourmi-de-Langton
 
 from tkinter import *
-from threading import Timer
-import time
 
 #-------------------------------------------------------------------------------------------------------
 # constantes 
@@ -18,7 +16,7 @@ LARGEUR = 640
 HAUTEUR = 640
 
 # nombre et dimensions des carrés de notre canvas
-N = 15
+N = 21
 L = LARGEUR//N   
 
 #couleurs possibles
@@ -50,6 +48,9 @@ DIRECTION = NORD
 
 # variable qui nous permettra de mettre le buton play en pause
 mouv = True
+
+# variables qui nous permettrony de modifier la vitesse de la fourmi
+A,B,C = True, True, True
 
 # creation de la fenetre principale ---------------------------------------------------------------
 window = Tk()
@@ -119,7 +120,7 @@ def fourmi():
     
 #---------------------fonction qui permet de changer les coordonnés de la fleche ,"sa position"-----------------
 def fourmi_update():
-    global fleche, position_i, position_j, id_after
+    global fleche, position_i, position_j, id_after, A,B,C
 
     if DIRECTION == NORD:
         x1 = position_j * L + L/2   
@@ -146,7 +147,12 @@ def fourmi_update():
         y1 = position_i *L + L/2
         canvas.coords ( fleche , x1, y1, x2, y2 )
 
-    id_after = canvas.after(1000, play)
+    if A == True :
+        id_after = canvas.after(600, play)
+    elif B == True :
+        id_after = canvas.after(100, play)
+    elif C == True :
+        id_after = canvas.after(1000, play)
     
 #---------------------fonction qui permet de changer la couleur d'un carré et de changer la direction de la fleche--
 def play ():
@@ -187,15 +193,17 @@ def play ():
         elif DIRECTION == WEST:
             position_i = (position_i+1)%N
             DIRECTION = SUD
-       
+    
     fourmi_update()
 
 #--------------fonction qui change le bouton "play" en bouton "pause",et active la fonction play-------------
 def demarrer ():
-    global mouv, id_after
-
+    global mouv, id_after, A, B, C
     if mouv:
         button_play.config(text="Pause")
+        A = True
+        B = False
+        C = False
         play()
     else:
         canvas.after_cancel(id_after)
@@ -254,22 +262,31 @@ def charge_grille():
 
 #fonction qui permet d'accelerer le mouvement de la fourmi------------------------------------------------
 def leftKey (event):
-    pass
+    global A,B,C
+    A, B = False, False
+    C = True
+    fourmi_update
     
 #fonction qui permet de ralentir le mouvement de la fourmi------------------------------------------------
 def rightKey (event):
-    pass
+    global A,B,C
+    A, C = False, False
+    B = True
+    fourmi_update
     
 window.bind ('<Right>', rightKey)
 window.bind ('<Left>', leftKey)
 
 def next ():
-    pass
+    global mouv, id_after, A, B, C
+    A, B, C = False, False , False
+    play()
+    
 
 # ---------- fonction qui permet de revenir en arriere d'un mouvement -----------------------------------
 def retour ():
-    global DIRECTION, grille,position_i, position_j
-
+    global DIRECTION, grille,position_i, position_j, A, B, C
+    A, B, C = False, False , False
     if DIRECTION == NORD :
         if grille[position_i+1][position_j] == BLANC :
             grille[position_i+1][position_j] = NOIR
@@ -317,7 +334,7 @@ def retour ():
             canvas.itemconfig( grille_canvas[position_i][position_j+1] ,  fill = "white")
             position_j = (position_j+1)%N
             DIRECTION = SUD
-    mouv = True
+    
     fourmi_update()
 
 
