@@ -46,10 +46,10 @@ position_j = N//2
 # direction initiale de la fourmi 
 DIRECTION = NORD
 
-# variable qui nous permettra de mettre le buton play en pause
+# variable qui nous permettra de mettre le bouton play en pause
 mouv = True
 
-# variables qui nous permettrony de modifier la vitesse de la fourmi
+# variables qui nous permettront de modifier la vitesse de la fourmi
 A,B,C = True, True, True
 
 # creation de la fenetre principale ---------------------------------------------------------------
@@ -147,10 +147,12 @@ def fourmi_update():
         y1 = position_i *L + L/2
         canvas.coords ( fleche , x1, y1, x2, y2 )
 
+    """A se remet a True quand on appuie sur play et B,C se mettent a False"""
+    """B se met en True quand on appuie sur la touche demandé et A,C se mettent en False"""
     if A == True :
-        id_after = canvas.after(600, play)
+        id_after = canvas.after(300, play)
     elif B == True :
-        id_after = canvas.after(100, play)
+        id_after = canvas.after(50, play)
     elif C == True :
         id_after = canvas.after(1000, play)
     
