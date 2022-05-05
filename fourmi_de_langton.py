@@ -68,7 +68,7 @@ frame = Frame (window, height = 320 , width = 360)
 
 #implementer une image 
 canvas_image = Canvas (window, height = 320 , width = 360)
-image = PhotoImage(file='C:\\Users\\Lenovo G50\\Desktop\\python\\l1-python\\exercises\\TD06_projet\\clavier.gif')
+image = PhotoImage(file='clavier.gif')
 label= Label (canvas_image,image = image)
 
 # -----------------------------------------------------------------------------------------------
