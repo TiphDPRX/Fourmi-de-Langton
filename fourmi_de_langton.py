@@ -50,7 +50,7 @@ DIRECTION = NORD
 mouv = True
 
 # variables qui nous permettront de modifier la vitesse de la fourmi
-A,B,C = True, True, True
+normal,rapide,lent= True, True, True
 
 # creation de la fenetre principale ---------------------------------------------------------------
 window = Tk()
@@ -120,7 +120,7 @@ def fourmi():
     
 #---------------------fonction qui permet de changer les coordonnés de la fleche ,"sa position"-----------------
 def fourmi_update():
-    global fleche, position_i, position_j, id_after, A,B,C
+    global fleche, position_i, position_j, id_after, normal,rapide,lent
 
     if DIRECTION == NORD:
         x1 = position_j * L + L/2   
@@ -149,11 +149,11 @@ def fourmi_update():
 
     """A se remet a True quand on appuie sur play et B,C se mettent a False"""
     """B se met en True quand on appuie sur la touche demandé et A,C se mettent en False"""
-    if A == True :
+    if normal == True :
         id_after = canvas.after(300, play)
-    elif B == True :
+    elif rapide == True :
         id_after = canvas.after(50, play)
-    elif C == True :
+    elif lent == True :
         id_after = canvas.after(1000, play)
     
 #---------------------fonction qui permet de changer la couleur d'un carré et de changer la direction de la fleche--
@@ -200,12 +200,12 @@ def play ():
 
 #--------------fonction qui change le bouton "play" en bouton "pause",et active la fonction play-------------
 def demarrer ():
-    global mouv, id_after, A, B, C
+    global mouv, id_after, normal,rapide,lent
     if mouv:
         button_play.config(text="Pause")
-        A = True
-        B = False
-        C = False
+        normal = True
+        rapide = False
+        lent = False
         play()
     else:
         canvas.after_cancel(id_after)
@@ -262,33 +262,33 @@ def charge_grille():
     demarrer()
     fic.close()
 
-#fonction qui permet d'accelerer le mouvement de la fourmi------------------------------------------------
-def leftKey (event):
-    global A,B,C
-    A, B = False, False
-    C = True
-    fourmi_update
-    
 #fonction qui permet de ralentir le mouvement de la fourmi------------------------------------------------
 def rightKey (event):
-    global A,B,C
-    A, C = False, False
-    B = True
+    global normal,rapide,lent
+    normal, lent = False, False
+    rapide = True
     fourmi_update
-    
+
+#fonction qui permet d'accelerer le mouvement de la fourmi------------------------------------------------
+def leftKey (event):
+    global normal,rapide,lent
+    normal, rapide = False, False
+    lent = True
+    fourmi_update   
+   
 window.bind ('<Right>', rightKey)
 window.bind ('<Left>', leftKey)
 
 def next ():
-    global mouv, id_after, A, B, C
-    A, B, C = False, False , False
+    global mouv, id_after, normal,rapide,lent
+    normal,rapide,lent = False, False , False
     play()
     
 
 # ---------- fonction qui permet de revenir en arriere d'un mouvement -----------------------------------
 def retour ():
-    global DIRECTION, grille,position_i, position_j, A, B, C
-    A, B, C = False, False , False
+    global DIRECTION, grille,position_i, position_j, normal,rapide,lent
+    normal,rapide,lent = False, False , False
     if DIRECTION == NORD :
         if grille[position_i+1][position_j] == BLANC :
             grille[position_i+1][position_j] = NOIR
