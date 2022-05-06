@@ -16,14 +16,18 @@ LARGEUR = 640
 HAUTEUR = 640
 
 # nombre et dimensions des carrés de notre canvas
-N = 21
+N = 50
 L = LARGEUR//N   
 
 #couleurs possibles
 BLANC = 0
 NOIR = 1
 
-COULEUR_FLECHE = "blue"
+VERT = 2
+ROUGE = 3
+BLEU =4
+
+COULEUR_FLECHE = "brown"
  
 #directions possibles de la fleche
 NORD = 0
@@ -51,6 +55,10 @@ mouv = True
 
 # variables qui nous permettront de modifier la vitesse de la fourmi
 normal,rapide,lent= True, True, True
+# compteur qui nous permettra de differencier le 1er et le 2eme mouvement dans le meme sens
+cpt_G_BLANC, cpt_G_BLEU = 1, 1
+cpt_D_VERT, cpt_D_ROUGE = 1, 1
+
 
 # creation de la fenetre principale ---------------------------------------------------------------
 window = Tk()
@@ -108,7 +116,7 @@ def fourmi():
         x1 = x_mil 
         y1 = y_mil+ L/2
         x2 = x_mil
-        y2 = y_mil- L/2       
+        y2 = y_mil- L/2    
     else :
         x1 = x_mil + L/2
         y1 = y_mil + L
@@ -120,7 +128,7 @@ def fourmi():
     
 #---------------------fonction qui permet de changer les coordonnés de la fleche ,"sa position"-----------------
 def fourmi_update():
-    global fleche, position_i, position_j, id_after, normal,rapide,lent
+    global fleche, position_i, position_j, id_after, normal,rapide,lent, start_time
 
     if DIRECTION == NORD:
         x1 = position_j * L + L/2   
@@ -156,6 +164,9 @@ def fourmi_update():
         id_after = canvas.after(50, play)
     elif lent == True :
         id_after = canvas.after(1000, play)
+
+    start_time= canvas.after(50,couleur)
+    
     
 #---------------------fonction qui permet de changer la couleur d'un carré et de changer la direction de la fleche--
 def play ():
@@ -286,7 +297,6 @@ def next ():
     normal,rapide,lent = False, False , False
     play()
     
-
 # ---------- fonction qui permet de revenir en arriere d'un mouvement -----------------------------------
 def retour ():
     global DIRECTION, grille,position_i, position_j, normal,rapide,lent
@@ -294,51 +304,149 @@ def retour ():
     if DIRECTION == NORD :
         if grille[position_i+1][position_j] == BLANC :
             grille[position_i+1][position_j] = NOIR
-            canvas.itemconfig( grille_canvas[position_i+1][position_j] ,  fill = "black")
+            canvas.itemconfigure( grille_canvas[position_i+1][position_j] ,  fill = "black")
             position_i = (position_i+1)%N
             DIRECTION = EST
         else :
             grille[position_i+1][position_j] = BLANC
-            canvas.itemconfig( grille_canvas[position_i+1][position_j] ,  fill = "white")
+            canvas.itemconfigure( grille_canvas[position_i+1][position_j] ,  fill = "white")
             position_i = (position_i+1)%N
             DIRECTION = WEST
 
     elif DIRECTION == SUD :
         if grille[position_i-1][position_j] == BLANC :
             grille[position_i-1][position_j] = NOIR
-            canvas.itemconfig( grille_canvas[position_i-1][position_j] ,  fill = "black")
+            canvas.itemconfigure( grille_canvas[position_i-1][position_j] ,  fill = "black")
             position_i = (position_i-1)%N
             DIRECTION = WEST
         else :
             grille[position_i-1][position_j] = BLANC
-            canvas.itemconfig( grille_canvas[position_i-1][position_j] ,  fill = "white")
+            canvas.itemconfigure( grille_canvas[position_i-1][position_j] ,  fill = "white")
             position_i = (position_i-1)%N
             DIRECTION = EST
             
     elif DIRECTION == EST :
         if grille[position_i][position_j-1] == BLANC :
             grille[position_i][position_j-1] = NOIR
-            canvas.itemconfig( grille_canvas[position_i][position_j-1] ,  fill = "black")
+            canvas.itemconfigure( grille_canvas[position_i][position_j-1] ,  fill = "black")
             position_j = (position_j-1)%N
             DIRECTION = SUD
         else :
             grille[position_i][position_j-1] = BLANC
-            canvas.itemconfig( grille_canvas[position_i][position_j-1] ,  fill = "white")
+            canvas.itemconfigure( grille_canvas[position_i][position_j-1] ,  fill = "white")
             position_j = (position_j-1)%N
             DIRECTION = NORD
 
     elif DIRECTION == WEST :
         if grille[position_i][position_j+1] == BLANC :
             grille[position_i][position_j+1] = NOIR
-            canvas.itemconfig( grille_canvas[position_i][position_j+1] ,  fill = "black")
+            canvas.itemconfigure( grille_canvas[position_i][position_j+1] ,  fill = "black")
             position_j = (position_j+1)%N
             DIRECTION = NORD
         else :
             grille[position_i][position_j+1] = BLANC
-            canvas.itemconfig( grille_canvas[position_i][position_j+1] ,  fill = "white")
+            canvas.itemconfigure( grille_canvas[position_i][position_j+1] ,  fill = "white")
             position_j = (position_j+1)%N
             DIRECTION = SUD
     
+    fourmi_update()
+
+# ----------------------fonction qui genere 4 couleurs---------------------------------------
+def couleur():
+    global position_i, position_j , DIRECTION, grille , grille_canvas, cpt_D_ROUGE,cpt_D_VERT,cpt_G_BLANC,cpt_G_BLEU,normal,rapide,lent
+    if grille[position_i][position_j] == BLANC :
+        if cpt_G_BLANC == 1 :
+            grille[position_i][position_j] = VERT
+            canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "green")
+            cpt_G_BLANC += 1
+        else :
+            grille[position_i][position_j] = BLEU
+            canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "blue")
+            cpt_G_BLANC -= 1
+
+        if DIRECTION == NORD:
+            DIRECTION = EST
+            position_j = (position_j+1)%N
+        elif DIRECTION == SUD:
+            DIRECTION = WEST
+            position_j = (position_j-1)%N
+        elif DIRECTION == EST:
+            DIRECTION = SUD
+            position_i = (position_i+1)%N
+        elif DIRECTION == WEST:
+            DIRECTION = NORD
+            position_i = (position_i-1)%N         
+    
+    elif grille[position_i][position_j] == BLEU :
+        if cpt_G_BLEU == 1 :
+            grille[position_i][position_j] = BLANC
+            canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "white")
+            cpt_G_BLEU += 1
+        else :
+            grille[position_i][position_j] = ROUGE
+            canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "red")
+            cpt_G_BLEU -= 1
+
+        if DIRECTION == NORD:
+            DIRECTION = EST
+            position_j = (position_j+1)%N
+        elif DIRECTION == SUD:
+            DIRECTION = WEST
+            position_j = (position_j-1)%N
+        elif DIRECTION == EST:
+            DIRECTION = SUD
+            position_i = (position_i+1)%N
+        elif DIRECTION == WEST:
+            DIRECTION = NORD
+            position_i = (position_i-1)%N  
+
+    elif grille[position_i][position_j] == ROUGE :
+            if cpt_D_ROUGE == 1 :
+                grille[position_i][position_j] = BLEU
+                canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "blue")
+                cpt_D_ROUGE += 1
+            else :
+                grille[position_i][position_j] = VERT
+                canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "green")
+                cpt_D_ROUGE -= 1
+
+            if DIRECTION == NORD:
+                position_j = (position_j-1)%N
+                DIRECTION = WEST   
+            elif DIRECTION == SUD:
+                position_j = (position_j+1)%N     
+                DIRECTION = EST
+            elif DIRECTION == EST:
+                position_i = (position_i-1)%N
+                DIRECTION = NORD
+            elif DIRECTION == WEST:
+                position_i = (position_i+1)%N
+                DIRECTION = SUD  
+        
+    elif grille[position_i][position_j] == VERT :
+        if cpt_D_VERT == 1 :
+            grille[position_i][position_j] = ROUGE
+            canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "red")
+            cpt_D_VERT += 1
+        else :
+            grille[position_i][position_j] = BLANC
+            canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "white")
+            cpt_D_VERT -= 1
+
+        if DIRECTION == NORD:
+            position_j = (position_j-1)%N
+            DIRECTION = WEST   
+        elif DIRECTION == SUD:
+            position_j = (position_j+1)%N     
+            DIRECTION = EST
+        elif DIRECTION == EST:
+            position_i = (position_i-1)%N
+            DIRECTION = NORD
+        elif DIRECTION == WEST:
+            position_i = (position_i+1)%N
+            DIRECTION = SUD  
+
+    normal,rapide,lent = False,False,False      
     fourmi_update()
 
 
@@ -349,6 +457,7 @@ Button (frame , text = ' Next ', command = next).pack(padx= 10 , pady=10 )
 Button (frame , text = 'Return', command = retour).pack(padx= 10 , pady=10 )
 Button(frame, text="Enregistre", command=enregistre).pack(padx= 10 , pady=10 )
 Button(frame, text="Charger grille", command=charge_grille).pack(padx= 10 , pady=10 )
+Button(frame, text="couleurs", command=couleur).pack(padx= 10 , pady=10 )
 
 # affichage------------------------------------------------------------------------------
 canvas.pack (side = RIGHT)
