@@ -262,14 +262,14 @@ def charge_grille():
     demarrer()
     fic.close()
 
-#fonction qui permet de ralentir le mouvement de la fourmi------------------------------------------------
+#fonction qui permet d'accelerer le mouvement de la fourmi------------------------------------------------
 def rightKey (event):
     global normal,rapide,lent
     normal, lent = False, False
     rapide = True
     fourmi_update
 
-#fonction qui permet d'accelerer le mouvement de la fourmi------------------------------------------------
+#---------------------------fonction qui permet de ralentir le mouvement de la fourmi---------------------
 def leftKey (event):
     global normal,rapide,lent
     normal, rapide = False, False
@@ -279,6 +279,7 @@ def leftKey (event):
 window.bind ('<Right>', rightKey)
 window.bind ('<Left>', leftKey)
 
+# ------------------fonction qui permet de faire avancer la fourmi d'un mouvement ----------------------------
 def next ():
     global mouv, id_after, normal,rapide,lent
     normal,rapide,lent = False, False , False
