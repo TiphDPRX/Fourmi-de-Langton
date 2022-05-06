@@ -147,8 +147,9 @@ def fourmi_update():
         y1 = position_i *L + L/2
         canvas.coords ( fleche , x1, y1, x2, y2 )
 
-    """A se remet a True quand on appuie sur play et B,C se mettent a False"""
-    """B se met en True quand on appuie sur la touche demandé et A,C se mettent en False"""
+    """normal se remet a True quand on appuie sur play, lent et rapide se mettent a False"""
+    """rapide se met en True quand on appuie sur la touche demandé, normal et lent se mettent en False"""
+    """lent se met en True quand on appuie sur la touche demandé, normal et rapide se mettent en False"""
     if normal == True :
         id_after = canvas.after(300, play)
     elif rapide == True :
