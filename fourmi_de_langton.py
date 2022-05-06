@@ -25,6 +25,7 @@ NOIR = 1
 
 COULEUR_FLECHE = "blue"
  
+
 #directions possibles de la fleche
 NORD = 0
 SUD = 1
@@ -87,6 +88,8 @@ def initialisation():
         grille.append([0]*N)
         grille_canvas.append([0]*N)
 
+
+def affichage():
     """ une deuxieme grille a 2D pour la creation de notre environnement """ 
     """ une troisieme grille a 2D pour garder les coordonnées de nos carrés de notre environnement"""
     for i in range(N):
@@ -120,7 +123,7 @@ def fourmi():
     
 #---------------------fonction qui permet de changer les coordonnés de la fleche ,"sa position"-----------------
 def fourmi_update():
-    global fleche, position_i, position_j, id_after, normal,rapide,lent
+    global fleche, position_i, position_j, id_after, normal,rapide,lent, x1, x2, y1, y2
 
     if DIRECTION == NORD:
         x1 = position_j * L + L/2   
@@ -218,50 +221,76 @@ def demarrer ():
 def enregistre():
     """Ecrit la taille de la grille et les valeurs de la liste
     grille dans le fichier enregistrement.txt"""
-    
     fic = open("enregistrement.txt", "w")
     fic.write(str(N) + "\n")
     fic.write(str(position_i)+ "\n")
     fic.write(str(position_j)+ "\n")
+    fic.write(str(DIRECTION)+ "\n")
+    fic.write(str(x1) + "\n")
+    fic.write(str(y1) + "\n")
+    fic.write(str(x2) + "\n")
+    fic.write(str(y2) + "\n")
     for i in range(N):
         for j in range(N):
             fic.write(str(grille[i][j])+ "\n")
-
     fic.close()
 
 #------------------ fonction qui permet de lire le fichier et affiche dans le canvas la grille lu ----------------
 def charge_grille():
-    global N, position_i, position_j
+    """Lit le fichier enregistrement.txt, affiche dans le canvas la grille lu dans le fichier,
+    replace la fourmi à l'état dans lequel elle se trouvait lors de l'enregistrement"""
+    global N, position_i, position_j, mouv, DIRECTION, x1, x2, y1, y2, fleche
 
     fic = open("enregistrement.txt", "r")
 
+    # permet de récupérer le nombre de lignes et colonnes de la grille
     taille = fic.readline()
+    # permet de récupérer pisition_i et position_j
     position1 = fic.readline()
     position2 = fic.readline()
-
+    # permet de récupérer l'orientation de la flèche
+    orientation = fic.readline()
+    # permet de recuperer les coordonnées de la flèche
+    coords1 = fic.readline()
+    coords2 = fic.readline()
+    coords3 =fic.readline()
+    coords4 = fic.readline()
+    
+    # on recupère ensuite toutes les valeurs enregistrer dans les variables correspondantes
     N = int(taille)
     position_i = int(position1)
     position_j = int(position2)
-    canvas.delete()
-    
-    initialisation() # initialisation pour avoir des listes à la bonne taille
-    i , j =0, 0
+    DIRECTION = int(orientation)
+    x1 = coords1
+    y1 = coords2
+    x2 = coords3
+    y2 = coords4
+
+    canvas.delete() # on veut créer une nouvelle grille donc, on détruit la première
+    # on initialise un nouveau canevas
+    affichage()
+    i, j = 0, 0
+    # on met à jour la liste grille qui contient la couleur de chaque carré de l'enregistrement
     for ligne in fic:
         grille[i][j] = int(ligne)
         j += 1
         if j == N:
             j = 0
             i += 1
-    print(grille)
+    # on associe les données de "grille" aux carrés en les modifiants avec la couleur correspondantes (noir ou blanc)       
     for i in range(N):
         for j in range(N):
             if grille[i][j]== 0:
                 canvas.itemconfigure(grille_canvas[i][j], fill = "white")
-            elif grille[i][j]==1:  
+            if grille[i][j]==1:  
                 canvas.itemconfigure(grille_canvas[i][j], fill = "black")
-    fourmi()
+    # on crée recrée un fleche avec les coordonnées sauvegardés             
+    fleche = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
+    mouv = not mouv # pour avoir le choix de redémarrer ou non l'automate avec les boutons play ou next
     demarrer()
     fic.close()
+
+
 
 #fonction qui permet d'accelerer le mouvement de la fourmi------------------------------------------------
 def rightKey (event):
@@ -357,6 +386,7 @@ canvas_image.place( x=30 , y= 350)
 label.pack()
 
 initialisation()
+affichage()
 fourmi()
 
 window.mainloop()
