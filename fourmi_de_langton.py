@@ -161,7 +161,6 @@ def fourmi_update():
     """normal se remet a True quand on appuie sur play, lent et rapide se mettent a False"""
     """rapide se met en True quand on appuie sur la touche demandé, normal et lent se mettent en False"""
     """lent se met en True quand on appuie sur la touche demandé, normal et rapide se mettent en False"""
-    print(normal, rapide, lent , couleurs)
     if normal == True :
         id_after = canvas.after(100, play)
     elif rapide == True :
