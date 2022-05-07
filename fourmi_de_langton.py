@@ -19,7 +19,7 @@ HAUTEUR = 640
 N = 71
 L = LARGEUR//N   
 
-#couleurs possibles
+# couleurs possibles
 BLANC = 0
 NOIR = 1
 
@@ -29,7 +29,7 @@ BLEU = 4
 
 COULEUR_FLECHE = "brown"
  
-#directions possibles de la fleche
+# directions possibles de la fleche
 NORD = 0
 SUD = 1
 OUEST = 2
@@ -53,35 +53,19 @@ DIRECTION = NORD
 # variable qui nous permettra de mettre le bouton play en pause
 mouv = True
 
-# variables qui nous permettront de modifier la vitesse de la fourmi
-normal,rapide,lent= True, True, True
+# variable qui nous permettra de passer de la couleur aux noirs et blanc
+couleurs = False
+noir_blanc = False
 
-# activation de la fonction couleur
+# variables qui nous permettront de modifier la vitesse de la fourmi
+normal, rapide, lent = True, True, True
+
+# variable qui nous permettra d'activer la fonction couleur
 couleurs = False
 
 # compteur qui nous permettra de differencier le 1er et le 2eme mouvement a gauche et a droite
 cpt_D_BLANC, cpt_D_ROUGE = 1, 1
 cpt_G_ORANGE, cpt_G_BLEU  = 1, 1
-
-# ---------------------------- creation de la fenetre principale -----------------------------------
-window = Tk()
-window.geometry("1000x700")
-window.title("Fourmi de Langton")
-window.configure(background='white')
-
-#creation d'un canvas pour generer notre terrain
-canvas = Canvas( window , height = HAUTEUR , width = LARGEUR, background='white' )
-
-#creation de notre fleche
-fleche = Canvas (window)
-
-#creation d'une boite ou on mettra nos boutons 
-frame = Frame (window, height = 320 , width = 360)
-
-#implementer une image 
-canvas_image = Canvas (window, height = 320 , width = 360)
-image = PhotoImage(file='clavier.gif')
-label= Label (canvas_image,image = image)
 
 # -----------------------------------------------------------------------------------------------
 # les fonctions
@@ -89,7 +73,6 @@ label= Label (canvas_image,image = image)
 
 # ----------------------------- fonctions initiles ----------------------------
 def initialisation(): 
-    global grille, grille_canvas
     """initialisation de la grille a 0 """
     """cette grille nous permettra plus tard de savoir de quelle couleur est notre carré """
     """pour ensuite pouvoir la modifier (en 1 ou 0 ; 1 etant le noir ; 0 etant le blanc) """
@@ -99,7 +82,6 @@ def initialisation():
         grille_canvas.append([0]*N) 
 
 def environnement():
-    """ une 3eme grille a 2D pour la creation de notre environnement """ 
     for i in range(N):
         for j in range(N):
             x, y = j*L , i*L 
@@ -114,8 +96,8 @@ def fourmi():
     x_mil = LARGEUR//2  #milieu de notre canvas en x
     y_mil = HAUTEUR//2  #milieu de notre canvas en y
 
-    """verifier le cas ou le nombre de carrés est pair ou impair et placer la fleche au milieu"""
-    if N%2 != 0 :
+    """ verifier le cas ou le nombre de carrés est pair ou impair et placer la fleche au milieu """
+    if N % 2 != 0 :
         x1 = x_mil 
         y1 = y_mil+ L/2
         x2 = x_mil
@@ -127,7 +109,7 @@ def fourmi():
         y2 = y_mil 
 
     """creation de notre fleche initiale """    
-    fleche = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
+    fleche = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow = "last", arrowshape = (5,6,2) )
     
 #---------------------fonction qui permet de changer les coordonnés de la fleche ,"sa position"-----------------
 def fourmi_update():
@@ -158,23 +140,21 @@ def fourmi_update():
         y1 = position_i *L + L/2
         canvas.coords ( fleche , x1, y1, x2, y2 )
 
-    """normal se remet a True quand on appuie sur play, lent et rapide se mettent a False"""
-    """rapide se met en True quand on appuie sur la touche demandé, normal et lent se mettent en False"""
-    """lent se met en True quand on appuie sur la touche demandé, normal et rapide se mettent en False"""
+    """ normal se remet a True quand on appuie sur play, lent rapide et couleurs se mettent a False"""
+    """ idem pour le reste ; des que un se met en True le reste se met a False """
     if normal == True :
         id_after = canvas.after(100, play)
     elif rapide == True :
         id_after = canvas.after(25, play)
     elif lent == True :
         id_after = canvas.after(500, play)
-    if couleurs == True :
+    elif couleurs == True :
         id_after = canvas.after(25,couleur)
     
-    
-#-----------------fonction qui permet de changer la couleur d'un carré et de changer la direction de la fleche-----------
+#----------------- fonction qui permet de changer la couleur d'un carré et de changer la direction de la fleche-----------
 def play ():
     global position_i, position_j , DIRECTION, grille , grille_canvas
-    
+
     """verification de la couleur de notre carre"""
     if grille[position_i][position_j] == BLANC :
         grille[position_i][position_j] = NOIR 
@@ -213,19 +193,53 @@ def play ():
     
     fourmi_update()
 
+#-------------------------fonction qui remet toutes les cases en blanc------------------------------------------
+def efface():
+    """Remplace tous les éléments de la grille en 0 """
+    for i in range(N):
+        for j in range(N):
+            grille[i][j]=0
+            canvas.itemconfigure(grille_canvas[i][j], fill ="white")
+
 #--------------fonction qui change le bouton "play" en bouton "pause",et active la fonction play-------------
+""" NB :Les variables globales booléennes noir_blanc et couleurs permettent de savoir si la fonction couleur """
+"""(resp. play) est activée pour pouvoir nettoyer le Canvas en blanc si besoin"""
+
 def demarrer ():
-    global mouv, id_after, normal,rapide,lent
+    """ Cette Fonction ne s'utilise que pour la version noir et blanc de la fourmi"""
+    global mouv, id_after, normal,rapide,lent, noir_blanc, couleurs
     if mouv:
         button_play.config(text="Pause")
         normal = True
         rapide, lent = False, False
+        if couleurs == True :
+            button_color.config(text="Couleurs")
+            efface()
+        noir_blanc = True
+        couleurs = False
         play()
     else:
         canvas.after_cancel(id_after)
         button_play.config(text="Play")
+    mouv = not mouv
 
-    mouv = not mouv    
+#----------fonction qui change le bouton "couleurs" en bouton "pause couleurs",et active la fonction couleur-------------
+def demarrer_couleur():
+    """Cette Fonction ne s'utilise que pour la version couleur de la fourmi."""
+
+    global mouv, id_after, normal,rapide,lent, couleurs, noir_blanc
+    if mouv:
+        button_color.config(text="Pause Couleurs")
+        if noir_blanc == True :
+            button_play.config(text="Play")
+            efface()
+        couleurs = True
+        noir_blanc = False
+        couleur()
+    else:
+        canvas.after_cancel(id_after)
+        button_color.config(text="Couleurs")
+    mouv = not mouv
 
 #------------------ fonction qui permet d'enregistrer une sequence dans un fichier -------------------------
 def enregistre():
@@ -297,23 +311,20 @@ def charge_grille():
     demarrer()
     fic.close()
 
-#fonction qui permet d'accelerer le mouvement de la fourmi------------------------------------------------
+#----------------------------fonction qui permet d'accelerer le mouvement de la fourmi--------------------
 def rightKey (event):
     global normal,rapide,lent
     normal, lent = False, False
     rapide = True
     fourmi_update
 
-#---------------------------fonction qui permet de ralentir le mouvement de la fourmi---------------------
+#--------------------------- fonction qui permet de ralentir le mouvement de la fourmi---------------------
 def leftKey (event):
     global normal,rapide,lent
     normal, rapide = False, False
     lent = True
     fourmi_update   
    
-window.bind ('<Right>', rightKey)
-window.bind ('<Left>', leftKey)
-
 # ------------------fonction qui permet de faire avancer la fourmi d'un mouvement ----------------------------
 def next ():
     global mouv, id_after, normal,rapide,lent
@@ -324,6 +335,7 @@ def next ():
 def retour ():
     global DIRECTION, grille,position_i, position_j, normal,rapide,lent
     normal,rapide,lent = False, False , False
+
     if DIRECTION == NORD :
         if grille[position_i+1][position_j] == BLANC :
             grille[position_i+1][position_j] = NOIR
@@ -457,18 +469,42 @@ def couleur():
 
     fourmi_update()
 
+#---------------------------------------------------------------------------------------------------------
+# ------------------ creation de la fenetre principale -----------------------
+#---------------------------------------------------------------------------------------------------------
+window = Tk()
+window.geometry("1000x700")
+window.title("Fourmi de Langton")
+window.configure(background='white')
 
-# les boutons --------------------------------------------------------------------------
+#creation d'un canvas pour generer notre terrain
+canvas = Canvas( window , height = HAUTEUR , width = LARGEUR, background='white' )
+
+#creation de notre fleche
+fleche = Canvas (window)
+
+#creation d'une boite ou on mettra nos boutons 
+frame = Frame (window, height = 320 , width = 360)
+
+#implementer une image 
+canvas_image = Canvas (window, height = 320 , width = 360)
+image = PhotoImage(file='clavier.gif')
+label= Label (canvas_image,image = image)
+
+# les boutons 
 button_play = Button (frame , text = ' Play  ', command = demarrer ) 
-button_play.pack(padx= 10 , pady=10 )
-Button (frame , text = ' Prochain ', command = next).pack(padx= 10 , pady=10 )
-Button (frame , text = 'Retour', command = retour).pack(padx= 10 , pady=10 )
-Button(frame, text="Enregistrer", command=enregistre).pack(padx= 10 , pady=10 )
-Button(frame, text="Charger grille", command=charge_grille).pack(padx= 10 , pady=10 )
-Button(frame, text="couleurs", command=couleur).pack(padx= 10 , pady=10 )
+button_play.pack(padx= 10 , pady=10, fill = X )
+Button (frame , text = ' Prochain ', command = next).pack(padx= 10 , pady=10, fill = X )
+Button (frame , text = 'Retour', command = retour).pack(padx= 10 , pady=10, fill = X )
+Button(frame, text="Enregistrer", command=enregistre).pack(padx= 10 , pady=10, fill = X)
+Button(frame, text="Charger grille", command=charge_grille).pack(padx= 10 , pady=10, fill = X)
+button_color = Button(frame, text="Couleurs", command=demarrer_couleur)
+button_color.pack(padx= 10 , pady=10, fill = X )
 
+window.bind ('<Right>', rightKey)
+window.bind ('<Left>', leftKey)
 
-# affichage------------------------------------------------------------------------------
+# affichage
 canvas.pack (side = RIGHT)
 frame.place (x = 120 , y = 50)
 canvas_image.place(x = 30 , y= 350)
