@@ -115,7 +115,7 @@ def fourmi():
 #---------------------fonction qui permet de changer les coordonnés de la fleche ,"sa position"-----------------
 def fourmi_update():
     global fleche, position_i, position_j, id_after, normal,rapide,lent, x1, x2, y1, y2
-
+    """ changement des coordonnés de la fourmi en fonction de sa direction """
     if DIRECTION == NORD:
         x1 = position_j * L + L/2   
         y1 = position_i *L + L
@@ -197,6 +197,7 @@ def play ():
 #-------------------------fonction qui remet toutes les cases en blanc------------------------------------------
 def efface():
     """Remplace tous les éléments de la grille en 0 """
+    """on utilisera cette fonction quand on voudra passer de 2 couleurs a 4 couleurs"""
     for i in range(N):
         for j in range(N):
             grille[i][j]=0
@@ -226,7 +227,6 @@ def demarrer ():
     mouv = not mouv
 
 #----------fonction qui change le bouton "couleurs" en bouton "pause couleurs",et active la fonction couleur-------------
-
 def demarrer_couleur():
     """Cette Fonction ne s'utilise que pour la version couleur de la fourmi."""
     global mouv, id_after, normal,rapide,lent, couleurs, noir_blanc
