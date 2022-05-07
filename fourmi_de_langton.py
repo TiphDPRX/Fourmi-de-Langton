@@ -382,17 +382,27 @@ def couleur():
     """si on est sur du blanc ou du rouge on tourne a 90 a droite et on change la couleur en orange la 1ere fois et en bleu la 2eme fois"""
     """si on est sur du orange ou du bleu on tourne a 90 a gauche et on change la couleur en rouge la 1ere fois et en blanc la 2eme fois"""
     
-    if grille[position_i][position_j] == BLANC :
-        """si le compteur de blanc est egale a 1 alors la fleche va a gauche et met la case en orange"""
-        if cpt_D_BLANC == 1 : 
-            grille[position_i][position_j] = ORANGE
-            canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "orange")
-            cpt_D_BLANC += 1
-        else :
-            """sinon si le compteur de blanc est egale a 2 alors la fleche va a gauche et met la case et bleu"""
-            grille[position_i][position_j] = BLEU
-            canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "blue")
-            cpt_D_BLANC -= 1
+    if grille[position_i][position_j] == BLANC or grille[position_i][position_j] == ROUGE :
+
+        if grille[position_i][position_j] == ROUGE :
+            if cpt_D_ROUGE == 1 :
+                grille[position_i][position_j] = ORANGE
+                canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "orange")
+                cpt_D_ROUGE += 1
+            else :
+                grille[position_i][position_j] = BLEU
+                canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "blue")
+                cpt_D_ROUGE -= 1
+
+        elif grille[position_i][position_j] == BLANC :
+            if cpt_D_BLANC == 1 : 
+                grille[position_i][position_j] = ORANGE
+                canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "orange")
+                cpt_D_BLANC += 1
+            else :
+                grille[position_i][position_j] = BLEU
+                canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "blue")
+                cpt_D_BLANC -= 1
         #le premier a gauche de la case blanche est donc orange et le deuxieme bleu
 
         if DIRECTION == NORD:
@@ -406,68 +416,29 @@ def couleur():
             position_i = (position_i+1)%N
         elif DIRECTION == OUEST:
             DIRECTION = NORD
-            position_i = (position_i-1)%N         
+            position_i = (position_i-1)%N        
     
-    elif grille[position_i][position_j] == BLEU :
-        if cpt_G_BLEU == 1 :
-            grille[position_i][position_j] = ROUGE
-            canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "red")
-            cpt_G_BLEU += 1
-        else :
-            grille[position_i][position_j] = BLANC
-            canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "white")
-            cpt_G_BLEU -= 1
-        #le premier a gauche de la case bleu est donc rouge et le deuxieme blanc
-
-        if DIRECTION == NORD:
-            position_j = (position_j-1)%N
-            DIRECTION = OUEST   
-        elif DIRECTION == SUD:
-            position_j = (position_j+1)%N     
-            DIRECTION = EST
-        elif DIRECTION == EST:
-            position_i = (position_i-1)%N
-            DIRECTION = NORD
-        elif DIRECTION == OUEST:
-            position_i = (position_i+1)%N
-            DIRECTION = SUD 
-
-         
-    elif grille[position_i][position_j] == ROUGE :
-            if cpt_D_ROUGE == 1 :
-                grille[position_i][position_j] = ORANGE
-                canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "orange")
-                cpt_D_ROUGE += 1
+    elif grille[position_i][position_j] == BLEU or grille[position_i][position_j] == ORANGE :
+        if grille[position_i][position_j] == ORANGE :
+            if cpt_G_ORANGE == 1 :
+                grille[position_i][position_j] = ROUGE
+                canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "red")
+                cpt_G_ORANGE += 1
             else :
-                grille[position_i][position_j] = BLEU
-                canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "blue")
-                cpt_D_ROUGE -= 1
-            #le premier a gauche de la case rouge est donc orange et le deuxieme bleu
+                grille[position_i][position_j] = BLANC
+                canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "white")
+                cpt_G_ORANGE -= 1
 
-            if DIRECTION == NORD:
-                DIRECTION = EST
-                position_j = (position_j+1)%N
-            elif DIRECTION == SUD:
-                DIRECTION = OUEST
-                position_j = (position_j-1)%N
-            elif DIRECTION == EST:
-                DIRECTION = SUD
-                position_i = (position_i+1)%N
-            elif DIRECTION == OUEST:
-                DIRECTION = NORD
-                position_i = (position_i-1)%N 
-
-        
-    elif grille[position_i][position_j] == ORANGE :
-        if cpt_G_ORANGE == 1 :
-            grille[position_i][position_j] = ROUGE
-            canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "red")
-            cpt_G_ORANGE += 1
-        else :
-            grille[position_i][position_j] = BLANC
-            canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "white")
-            cpt_G_ORANGE -= 1
-        #le premier a gauche de la case orange est donc rouge et le deuxieme blanc
+        elif grille[position_i][position_j] == BLEU :
+            if cpt_G_BLEU == 1 :
+                grille[position_i][position_j] = ROUGE
+                canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "red")
+                cpt_G_BLEU += 1
+            else :
+                grille[position_i][position_j] = BLANC
+                canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "white")
+                cpt_G_BLEU -= 1
+            #le premier a gauche de la case bleu est donc rouge et le deuxieme blanc
 
         if DIRECTION == NORD:
             position_j = (position_j-1)%N
@@ -480,7 +451,7 @@ def couleur():
             DIRECTION = NORD
         elif DIRECTION == OUEST:
             position_i = (position_i+1)%N
-            DIRECTION = SUD  
+            DIRECTION = SUD           
 
     normal,rapide,lent = False,False,False    
     couleurs = True  
