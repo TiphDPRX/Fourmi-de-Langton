@@ -71,7 +71,7 @@ cpt_G_ORANGE, cpt_G_BLEU  = 1, 1
 # les fonctions
 # -----------------------------------------------------------------------------------------------
 
-# ----------------------------- fonctions initiles ----------------------------
+# ----------------------------- fonctions initiales ----------------------------
 def initialisation(): 
     """initialisation de la grille a 0 """
     """cette grille nous permettra plus tard de savoir de quelle couleur est notre carré """
