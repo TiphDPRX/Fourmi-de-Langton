@@ -53,6 +53,10 @@ DIRECTION = NORD
 # variable qui nous permettra de mettre le bouton play en pause
 mouv = True
 
+# Variable qui nous permettras de passer de la couleur aux noirs et blanc
+couleurs = False
+noir_blanc = False
+
 # variables qui nous permettront de modifier la vitesse de la fourmi
 normal,rapide,lent= True, True, True
 
@@ -214,18 +218,48 @@ def play ():
     fourmi_update()
 
 #--------------fonction qui change le bouton "play" en bouton "pause",et active la fonction play-------------
+
+""" NB :Les variables globales booléennes noir_blanc et couleurs permettent de savoir si la fonction couleur (resp. play) est activé pour pouvoir nettoyer le Canevas en blanc si besoin"""
+
 def demarrer ():
-    global mouv, id_after, normal,rapide,lent
+    """Active la fonction Play et change le texte "play" en "pause",
+    de tel sorte que si on appuie sur pause, la fourmi s'arrête.
+    Cette Fonction ne s'utilise que pour la version noir et blanc de la fourmi.
+    """
+    global mouv, id_after, normal,rapide,lent, noir_blanc, couleurs
     if mouv:
         button_play.config(text="Pause")
         normal = True
         rapide, lent = False, False
+        if couleurs == True :
+            button_color.config(text="Couleurs")
+            efface()
+        noir_blanc = True
+        couleurs = False
         play()
     else:
         canvas.after_cancel(id_after)
         button_play.config(text="Play")
+    mouv = not mouv
 
-    mouv = not mouv    
+def demarrer_couleur():
+    """Active la fonction Couleur et change le texte "Couleurs" en "Pause Couleurs",
+    de tel sorte que si on appuie sur pause, la fourmi s'arrête.
+    Cette Fonction ne s'utilise que pour la version couleur de la fourmi.
+    """
+    global mouv, id_after, normal,rapide,lent, couleurs, noir_blanc
+    if mouv:
+        button_color.config(text="Pause Couleurs")
+        if noir_blanc == True :
+            button_play.config(text="Play")
+            efface()
+        couleurs = True
+        noir_blanc = False
+        couleur()
+    else:
+        canvas.after_cancel(id_after)
+        button_color.config(text="Couleurs")
+    mouv = not mouv
 
 #------------------ fonction qui permet d'enregistrer une sequence dans un fichier -------------------------
 def enregistre():
@@ -374,6 +408,15 @@ def retour ():
     
     fourmi_update()
 
+#-------------------------fonction qui remet toutes les cases en blanc
+
+def efface():
+    """Remplace tous les éléments de "grille" en 0 """
+    for i in range(N):
+        for j in range(N):
+            grille[i][j]=0
+            canvas.itemconfigure(grille_canvas[i][j], fill ="white")
+
 # ----------------------fonction qui genere 4 couleurs---------------------------------------
 def couleur():
     global position_i, position_j , DIRECTION, grille , grille_canvas, cpt_D_ROUGE,cpt_G_ORANGE,cpt_D_BLANC,cpt_G_BLEU,normal,rapide,lent,couleurs
@@ -461,11 +504,13 @@ def couleur():
 # les boutons --------------------------------------------------------------------------
 button_play = Button (frame , text = ' Play  ', command = demarrer ) 
 button_play.pack(padx= 10 , pady=10 )
+button_color = Button(frame, text="Couleurs", command=demarrer_couleur)
+button_color.pack(padx= 10 , pady=10 )
 Button (frame , text = ' Prochain ', command = next).pack(padx= 10 , pady=10 )
 Button (frame , text = 'Retour', command = retour).pack(padx= 10 , pady=10 )
 Button(frame, text="Enregistrer", command=enregistre).pack(padx= 10 , pady=10 )
 Button(frame, text="Charger grille", command=charge_grille).pack(padx= 10 , pady=10 )
-Button(frame, text="couleurs", command=couleur).pack(padx= 10 , pady=10 )
+
 
 
 # affichage------------------------------------------------------------------------------
