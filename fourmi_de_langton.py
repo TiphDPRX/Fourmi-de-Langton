@@ -4,6 +4,7 @@
 # Tiphanie DEPREAUX
 # Baptiste PARIS
 # https://github.com/uvsq22102500/Fourmi-de-Langton
+#################################
 
 from tkinter import *
 
@@ -201,6 +202,7 @@ def efface():
             grille[i][j]=0
             canvas.itemconfigure(grille_canvas[i][j], fill ="white")
 
+
 #--------------fonction qui change le bouton "play" en bouton "pause",et active la fonction play-------------
 def demarrer ():    
     """ NB :Les variables globales booléennes noir_blanc et couleurs permettent de savoir si la fonction couleur """
@@ -386,13 +388,6 @@ def retour ():
     
     fourmi_update()
 
-#-------------------------fonction qui remet toutes les cases en blanc--------------------------
-def efface():
-    """Remplace tous les éléments de "grille" en 0 """
-    for i in range(N):
-        for j in range(N):
-            grille[i][j]=0
-            canvas.itemconfigure(grille_canvas[i][j], fill ="white")
 
 # ----------------------fonction qui genere 4 couleurs---------------------------------------
 def couleur():
