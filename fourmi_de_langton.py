@@ -53,7 +53,11 @@ DIRECTION = NORD
 # variable qui nous permettra de mettre le bouton play en pause
 mouv = True
 
+<<<<<<< HEAD
 # variable qui nous permettra de passer de la couleur aux noirs et blanc
+=======
+# Variable qui nous permettras de passer de la couleur aux noirs et blanc
+>>>>>>> bcee213e49e7541d303dc182325513f1580d469a
 couleurs = False
 noir_blanc = False
 
@@ -202,11 +206,22 @@ def efface():
             canvas.itemconfigure(grille_canvas[i][j], fill ="white")
 
 #--------------fonction qui change le bouton "play" en bouton "pause",et active la fonction play-------------
+<<<<<<< HEAD
 """ NB :Les variables globales booléennes noir_blanc et couleurs permettent de savoir si la fonction couleur """
 """(resp. play) est activée pour pouvoir nettoyer le Canvas en blanc si besoin"""
 
 def demarrer ():
     """ Cette Fonction ne s'utilise que pour la version noir et blanc de la fourmi"""
+=======
+
+""" NB :Les variables globales booléennes noir_blanc et couleurs permettent de savoir si la fonction couleur (resp. play) est activé pour pouvoir nettoyer le Canevas en blanc si besoin"""
+
+def demarrer ():
+    """Active la fonction Play et change le texte "play" en "pause",
+    de tel sorte que si on appuie sur pause, la fourmi s'arrête.
+    Cette Fonction ne s'utilise que pour la version noir et blanc de la fourmi.
+    """
+>>>>>>> bcee213e49e7541d303dc182325513f1580d469a
     global mouv, id_after, normal,rapide,lent, noir_blanc, couleurs
     if mouv:
         button_play.config(text="Pause")
@@ -223,10 +238,18 @@ def demarrer ():
         button_play.config(text="Play")
     mouv = not mouv
 
+<<<<<<< HEAD
 #----------fonction qui change le bouton "couleurs" en bouton "pause couleurs",et active la fonction couleur-------------
 def demarrer_couleur():
     """Cette Fonction ne s'utilise que pour la version couleur de la fourmi."""
 
+=======
+def demarrer_couleur():
+    """Active la fonction Couleur et change le texte "Couleurs" en "Pause Couleurs",
+    de tel sorte que si on appuie sur pause, la fourmi s'arrête.
+    Cette Fonction ne s'utilise que pour la version couleur de la fourmi.
+    """
+>>>>>>> bcee213e49e7541d303dc182325513f1580d469a
     global mouv, id_after, normal,rapide,lent, couleurs, noir_blanc
     if mouv:
         button_color.config(text="Pause Couleurs")
@@ -386,6 +409,15 @@ def retour ():
     
     fourmi_update()
 
+#-------------------------fonction qui remet toutes les cases en blanc
+
+def efface():
+    """Remplace tous les éléments de "grille" en 0 """
+    for i in range(N):
+        for j in range(N):
+            grille[i][j]=0
+            canvas.itemconfigure(grille_canvas[i][j], fill ="white")
+
 # ----------------------fonction qui genere 4 couleurs---------------------------------------
 def couleur():
     global position_i, position_j , DIRECTION, grille , grille_canvas, cpt_D_ROUGE,cpt_G_ORANGE,cpt_D_BLANC,cpt_G_BLEU,normal,rapide,lent,couleurs
@@ -449,7 +481,7 @@ def couleur():
                 grille[position_i][position_j] = BLANC
                 canvas.itemconfigure( grille_canvas[position_i][position_j] ,  fill = "white")
                 cpt_G_BLEU -= 1
-            #le premier a gauche de la case bleu est donc rouge et le deuxieme blanc
+            # le premier a gauche de la case bleu est donc rouge et le deuxieme blanc
 
         if DIRECTION == NORD:
             position_j = (position_j-1)%N
@@ -493,6 +525,7 @@ label= Label (canvas_image,image = image)
 
 # les boutons 
 button_play = Button (frame , text = ' Play  ', command = demarrer ) 
+<<<<<<< HEAD
 button_play.pack(padx= 10 , pady=10, fill = X )
 Button (frame , text = ' Prochain ', command = next).pack(padx= 10 , pady=10, fill = X )
 Button (frame , text = 'Retour', command = retour).pack(padx= 10 , pady=10, fill = X )
@@ -500,6 +533,16 @@ Button(frame, text="Enregistrer", command=enregistre).pack(padx= 10 , pady=10, f
 Button(frame, text="Charger grille", command=charge_grille).pack(padx= 10 , pady=10, fill = X)
 button_color = Button(frame, text="Couleurs", command=demarrer_couleur)
 button_color.pack(padx= 10 , pady=10, fill = X )
+=======
+button_play.pack(padx= 10 , pady=10 )
+button_color = Button(frame, text="Couleurs", command=demarrer_couleur)
+button_color.pack(padx= 10 , pady=10 )
+Button (frame , text = ' Prochain ', command = next).pack(padx= 10 , pady=10 )
+Button (frame , text = 'Retour', command = retour).pack(padx= 10 , pady=10 )
+Button(frame, text="Enregistrer", command=enregistre).pack(padx= 10 , pady=10 )
+Button(frame, text="Charger grille", command=charge_grille).pack(padx= 10 , pady=10 )
+
+>>>>>>> bcee213e49e7541d303dc182325513f1580d469a
 
 window.bind ('<Right>', rightKey)
 window.bind ('<Left>', leftKey)
