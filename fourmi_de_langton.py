@@ -196,8 +196,8 @@ def play ():
 
 #-------------------------fonction qui remet toutes les cases en blanc------------------------------------------
 def efface():
-    """Remplace tous les éléments de la grille en 0 """
-    """on utilisera cette fonction quand on voudra passer de 2 couleurs a 4 couleurs"""
+    """ Remplace tous les éléments de la grille en 0 """
+    """ On utilisera cette fonction quand on voudra passer de 2 couleurs(noir et blanc) à 4 couleurs"""
     for i in range(N):
         for j in range(N):
             grille[i][j]=0
@@ -206,11 +206,13 @@ def efface():
 
 #--------------fonction qui change le bouton "play" en bouton "pause",et active la fonction play-------------
 def demarrer ():    
-    """ NB :Les variables globales booléennes noir_blanc et couleurs permettent de savoir si la fonction couleur """
-    """(resp. play) est activée pour pouvoir nettoyer le Canvas en blanc si besoin"""
+    """ Active la fonction Play et change le texte "play" en "pause", de telle sorte que si on appuie sur pause,
+    la fourmi s'arrête.
+    NB :Les variables globales booléennes noir_blanc et couleurs permettent de savoir si la fonction couleur
+    (resp. play) est activée pour pouvoir nettoyer le Canvas en blanc si besoin"""
 
     global mouv, id_after, normal,rapide,lent, noir_blanc, couleurs
-    """cette Fonction ne s'utilise que pour la version noir et blanc de la fourmi."""
+    """cette fonction ne s'utilise que pour la version noir et blanc de la fourmi."""
     if mouv:
         button_play.config(text="Pause")
         normal = True
@@ -228,7 +230,9 @@ def demarrer ():
 
 #----------fonction qui change le bouton "couleurs" en bouton "pause couleurs",et active la fonction couleur-------------
 def demarrer_couleur():
-    """Cette Fonction ne s'utilise que pour la version couleur de la fourmi."""
+    """Active la fonction Couleur et change le texte "Couleurs" en "Pause Couleurs",
+    de telle sorte que si on appuie sur pause, la fourmi s'arrête.
+    Cette fonction ne s'utilise que pour la version couleur de la fourmi."""
     global mouv, id_after, normal,rapide,lent, couleurs, noir_blanc
     if mouv:
         button_color.config(text="Pause Couleurs")
@@ -243,7 +247,7 @@ def demarrer_couleur():
         button_color.config(text="Couleurs")
     mouv = not mouv
 
-#------------------ fonction qui permet d'enregistrer une sequence dans un fichier -------------------------
+#------------------ fonction qui permet d'enregistrer une séquence dans un fichier -------------------------
 def enregistre():
     """Ecrit la taille de la grille et les valeurs de la liste grille dans le fichier enregistrement.txt"""
     fic = open("enregistrement.txt", "w")
@@ -270,7 +274,7 @@ def charge_grille():
 
     # Récupérer le nombre de lignes et de colonnes de la grille
     taille = fic.readline()
-    # Recuperer la position ,l'orientation et les coordonnés de la fleche
+    # Récuperer la position ,l'orientation et les coordonnés de la fleche
     position1 = fic.readline()
     position2 = fic.readline()
     orientation = fic.readline()
@@ -335,7 +339,7 @@ def next ():
     
 # ---------- fonction qui permet de revenir en arriere d'un mouvement -----------------------------------
 def retour ():
-    global DIRECTION, grille,position_i, position_j, normal,rapide,lent
+    global DIRECTION, position_i, position_j, normal,rapide,lent
     normal,rapide,lent = False, False , False
 
     if DIRECTION == NORD :
@@ -391,7 +395,7 @@ def retour ():
 
 # ----------------------fonction qui genere 4 couleurs---------------------------------------
 def couleur():
-    global position_i, position_j , DIRECTION, grille , grille_canvas, cpt_D_ROUGE,cpt_G_ORANGE,cpt_D_BLANC,cpt_G_BLEU,normal,rapide,lent,couleurs
+    global position_i, position_j , DIRECTION, cpt_D_ROUGE,cpt_G_ORANGE,cpt_D_BLANC,cpt_G_BLEU,normal,rapide,lent,couleurs
     
     """si on est sur du blanc ou du rouge on tourne a 90 a droite et on change la couleur en orange la 1ere fois et en bleu la 2eme fois"""
     """si on est sur du orange ou du bleu on tourne a 90 a gauche et on change la couleur en rouge la 1ere fois et en blanc la 2eme fois"""
@@ -497,7 +501,7 @@ label= Label (canvas_image,image = image)
 # les boutons 
 button_play = Button (frame , text = ' Play  ', command = demarrer ) 
 button_play.pack(padx= 10 , pady=10, fill = X )
-Button (frame , text = ' Prochain ', command = next).pack(padx= 10 , pady=10, fill = X )
+Button (frame , text = ' Suivant ', command = next).pack(padx= 10 , pady=10, fill = X )
 Button (frame , text = 'Retour', command = retour).pack(padx= 10 , pady=10, fill = X )
 Button(frame, text="Enregistrer", command=enregistre).pack(padx= 10 , pady=10, fill = X)
 Button(frame, text="Charger grille", command=charge_grille).pack(padx= 10 , pady=10, fill = X)
