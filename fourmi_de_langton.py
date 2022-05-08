@@ -60,6 +60,7 @@ mouv = True
 # variable qui nous permettra de passer de la couleur aux noirs et blanc
 couleurs = False
 noir_blanc = False
+trois_fourmis = False
 
 # variables qui nous permettront de modifier la vitesse de la fourmi
 normal, rapide, lent = True, True, True
@@ -216,25 +217,26 @@ def demarrer ():
     NB :Les variables globales booléennes noir_blanc et couleurs permettent de savoir si la fonction couleur
     (resp. play) est activée pour pouvoir nettoyer le Canvas en blanc si besoin"""
 
-    global mouv, id_after, normal,rapide,lent, noir_blanc, couleurs
+    global mouv, id_after, normal,rapide,lent, noir_blanc, couleurs, trois_fourmis
     """cette fonction ne s'utilise que pour la version noir et blanc de la fourmi."""
     if mouv:
         button_play.config(text="Pause")
         normal = True
         rapide, lent = False, False
-        if couleurs == True :
+        if couleurs == True or trois_fourmis == True :
             button_color.config(text="Couleurs")
             efface()
 
         noir_blanc = True
         couleurs = False
+        trois_fourmis = False
         play()
 
     else:
         canvas.after_cancel(id_after)
         button_play.config(text="Play")
-
     mouv = not mouv
+
 
 #----------fonction qui change le bouton "couleurs" en bouton "pause couleurs",et active la fonction couleur-------------
 def demarrer_couleur():
@@ -242,14 +244,14 @@ def demarrer_couleur():
     de telle sorte que si on appuie sur pause, la fourmi s'arrête.
     Cette fonction ne s'utilise que pour la version couleur de la fourmi."""
 
-    global mouv, id_after, normal,rapide,lent, couleurs, noir_blanc
+    global mouv, id_after, couleurs, noir_blanc, trois_fourmis
     
     if mouv:
         button_color.config(text="Pause Couleurs")
-        if noir_blanc == True :
+        if noir_blanc == True or trois_fourmis == True:
             button_play.config(text="Play")
             efface()
-
+        trois_fourmis = False
         couleurs = True
         noir_blanc = False
         couleur()
@@ -258,6 +260,28 @@ def demarrer_couleur():
         canvas.after_cancel(id_after)
         button_color.config(text="Couleurs")
 
+    mouv = not mouv
+
+#----------fonction qui change le bouton "couleurs" en bouton "pause couleurs",et active la fonction couleur-------------
+def demarrer3():
+    """ """
+
+    global mouv, id_after, couleurs, noir_blanc, trois_fourmis
+    
+    if mouv:
+        button_troisFourmis.config(text="Stop !")
+        if noir_blanc == True or couleurs == True:
+            button_play.config(text="Play")
+            efface()
+
+        couleurs = False
+        noir_blanc = False
+        trois_fourmis = True
+        demarrer_plusieurs_fourmis()
+    else:
+
+        canvas.after_cancel(id_after)
+        button_troisFourmis.config(text="3 Fourmis")
     mouv = not mouv
 
 
@@ -622,7 +646,9 @@ Button (left_frame , text = 'Retour', command = retour).pack(padx= 10 , pady=10,
 
 button_color = Button(left_frame, text="Couleurs", command=demarrer_couleur)
 button_color.pack(padx= 10 , pady=10, fill = X )
-Button(left_frame, text="3 Fourmis", command=demarrer_plusieurs_fourmis).pack(padx= 10, pady=10, fill = X)
+
+button_troisFourmis = Button(left_frame, text="3 Fourmis", command=demarrer3)
+button_troisFourmis.pack(padx= 10, pady=10, fill = X)
 
 
 
