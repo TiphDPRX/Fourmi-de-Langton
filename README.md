@@ -17,7 +17,7 @@ Voici une réprésentation de notre Fourmi de Langton :
 **Présentation des différentes Fonctionnalités**
 
 Une fourmi que nous avons choisi de représenter par une flèche est initialisée sur une grille blanche.  
-Pour jouer avec la fourmi, on dispose de 7 boutons (dont deux boutons réversibles : play/pause, couleurs/pause couleurs) :
+Pour jouer avec la fourmi, on dispose de 7 boutons (dont deux boutons réversibles : play/pause, couleurs/pause couleurs 3Fourmis/Stop! ):
 
 * Play : Lance la fourmi  qui se déplacera d'une case toutes les 100ms (cf le principe de l'automate ci-dessous)
 * Pause : Ce bouton n'apparaît que lorsque play est active, il stop la fourmi
@@ -25,6 +25,8 @@ Pour jouer avec la fourmi, on dispose de 7 boutons (dont deux boutons réversibl
 * Retour : Fait revenir la fourmi d'une étape en arrière
 * Couleur : Active la version couleur (cf l'explication de l'automate ci-dessous)
 * Pause Couleurs : Ce bouton n'apparaît que lorsque Couleurs est active, il stop la fourmi
+* 3 Fourmis : alance 3 fourmis a la fois
+* Stop ! : Ce bouton n´apparait que lorseque 3 Fourmis est active , il stop les 3 fourmis.
 * Enregistrer : Enregistre une instance dans un fichier
 * Charger Grille : Par défaut, on obtient un enregistrement déjà effectué d'un fourmi de Langton. Cet enregistrement permet de voir rapidement le résultat de parcours d'une fourmi déjà bien avancée. Cependant, si on a effectué un enregistrement via le bouton "enregistre" au préalable, notre  grille enregistrée apparaît sur le canvas.
 
