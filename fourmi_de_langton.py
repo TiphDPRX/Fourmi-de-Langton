@@ -201,6 +201,8 @@ def play ():
 def efface():
     """ Remplace tous les éléments de la grille en 0 """
     """ On utilisera cette fonction quand on voudra passer de noir et blanc à 4 couleurs"""
+    """ On utilisera cette fonction quand on voudra passer de 2 couleurs(noir et blanc) à 4 couleurs"""
+
     for i in range(N):
         for j in range(N):
             grille[i][j]=0
@@ -213,7 +215,7 @@ def demarrer ():
     la fourmi s'arrête.
     NB :Les variables globales booléennes noir_blanc et couleurs permettent de savoir si la fonction couleur
     (resp. play) est activée pour pouvoir nettoyer le Canvas en blanc si besoin"""
-    
+
     global mouv, id_after, normal,rapide,lent, noir_blanc, couleurs
     """cette fonction ne s'utilise que pour la version noir et blanc de la fourmi."""
     if mouv:
@@ -239,7 +241,7 @@ def demarrer_couleur():
     """Active la fonction Couleur et change le texte "Couleurs" en "Pause Couleurs",
     de telle sorte que si on appuie sur pause, la fourmi s'arrête.
     Cette fonction ne s'utilise que pour la version couleur de la fourmi."""
-    
+
     global mouv, id_after, normal,rapide,lent, couleurs, noir_blanc
     
     if mouv:
@@ -258,7 +260,7 @@ def demarrer_couleur():
 
     mouv = not mouv
 
-#--------------------- fonction qui permet d'enregistrer une séquence dans un fichier -------------------------
+
 def enregistre():
     """Ecrit la taille de la grille et les valeurs de la liste grille dans le fichier enregistrement.txt"""
     fic = open("enregistrement.txt", "w")
@@ -555,7 +557,7 @@ def plusieurs_fourmis():
             y1 = positions_i[i] *L + L/2
             canvas.coords ( fleches[i] , x1, y1, x2, y2 )
 
-    id_after = canvas.after(50,plusieurs_fourmis)
+    id_after = canvas.after(50 ,plusieurs_fourmis)
     
 #creation des 3 fourmis 
 def demarrer_plusieurs_fourmis():
@@ -614,13 +616,15 @@ label= Label (canvas_image,image = image)
 
 # les boutons 
 button_play = Button (left_frame , text = ' Play  ', command = demarrer ) 
-button_play.pack(padx= 15 , pady=10, fill = X )
-Button (left_frame , text = ' Prochain ', command = next).pack(padx= 15 , pady=10, fill = X )
-Button (left_frame , text = 'Retour', command = retour).pack(padx= 15 , pady=10, fill = X )
+button_play.pack(padx= 10 , pady=10, fill = X )
+Button (left_frame , text = ' Prochain ', command = next).pack(padx= 10 , pady=10, fill = X )
+Button (left_frame , text = 'Retour', command = retour).pack(padx= 10 , pady=10, fill = X )
+
 button_color = Button(left_frame, text="Couleurs", command=demarrer_couleur)
-button_fourmi= Button(left_frame, text="3 fourmis", command=demarrer_plusieurs_fourmis)
-button_color.pack(padx= 15 , pady=10, fill = X )
-button_fourmi.pack(padx= 15, pady=10, fill = X)
+button_color.pack(padx= 10 , pady=10, fill = X )
+Button(left_frame, text="3 Fourmis", command=demarrer_plusieurs_fourmis).pack(padx= 10, pady=10, fill = X)
+
+
 
 Button(right_frame, text="Enregistrer", command=enregistre).pack(padx= 10 , pady=10, fill = X )
 Button(right_frame, text="Charger grille", command=charge_grille).pack(padx= 10 , pady=10, fill = X )
