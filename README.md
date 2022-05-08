@@ -10,5 +10,6 @@ https://github.com/uvsq22102500/Fourmi-de-Langton
   
 ---------------------------------- 
 
-![Fourmi de Lngton](Capture d’écran 2022-05-08 à 16.02.51.png)
+![Fourmi de Langton](exemple_fourmi.png)
+
 
