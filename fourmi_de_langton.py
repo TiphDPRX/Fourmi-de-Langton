@@ -150,7 +150,7 @@ def fourmi_update():
     elif lent == True :
         id_after = canvas.after(500, play)
     elif couleurs == True :
-        id_after = canvas.after(25,couleur)
+        id_after = canvas.after(15,couleur)
     
 #----------------- fonction qui permet de changer la couleur d'un carré et de changer la direction de la fleche-----------
 def play ():
