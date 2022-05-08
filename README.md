@@ -25,7 +25,7 @@ Pour jouer avec la fourmi, on dispose de 6 boutons (dont deux boutons réversibl
 * Retour : Fait revenir la fourmi d'une étape en arrière
 * Couleur : Active la version couleur (cf l'explication de l'automate ci-dessous)
 * Pause Couleurs : Ce bouton n'apparaît que lorsque Couleurs est active, il stop la fourmi
-* Enregistre : Enregistre une instance dans un fichier
+* Enregistrer : Enregistre une instance dans un fichier
 * Charger Grille : Par défaut, on obtient un enregistrement déjà effectué d'un fourmi de Langton. Cet enregistrement permet de voir rapidement le résultat de parcours d'une fourmi déjà bien avancée. Cependant, si on a effectué un enregistrement via le bouton "enregistre" au préalable, notre  grille enregistrée apparaît sur le canvevas.
 
 
@@ -50,7 +50,7 @@ Si la fourmi se trouve sur du orange ou du bleu, elle pivote de 90 a gauche, cha
 
 ![Fourmi de Langton](fourmi_couleur.png)
 
-### Vous connaissez désormais toutes les subtilités de notre chère Fourmi de Langton. Have Fun !!!
+**Vous connaissez désormais toutes les subtilités de notre chère Fourmi de Langton. Have Fun !!!**
 
 
 
