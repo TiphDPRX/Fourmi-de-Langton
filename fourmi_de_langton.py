@@ -394,33 +394,35 @@ def plusieurs_fourmis():
 #--------------------------------- creation des 3 fourmis -----------------------------------
 def demarrer_plusieurs_fourmis():
     global fleche1, fleche2, fleche3, fleches, DIRECTIONS ,cpt, check_fleche, fleche,position_i , position_j, x1,x2,y1,y2 
-
-    cpt = cpt + 1 # pour pouvoir creer nos 3 fleches
-    
+    """supprimer des fleches s'il en existe"""
     if check_fleche == 1 :
         canvas.delete(fleche)
     check_fleche = 0
 
-    x_mil = LARGEUR//2  
-    y_mil = HAUTEUR//2  
+    if cpt == 0 :
+        cpt = cpt + 1 
 
-    if N % 2 != 0 :
-        x1 = x_mil 
-        y1 = y_mil+ L/2
-        x2 = x_mil
-        y2 = y_mil- L/2    
-    else :
-        x1 = x_mil + L/2
-        y1 = y_mil + L
-        x2 = x_mil + L/2
-        y2 = y_mil 
+        x_mil = LARGEUR//2  
+        y_mil = HAUTEUR//2  
 
-    if (cpt==1):
-        fleche1 = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
-        fleche2 = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
-        fleche3 = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
-        
-        fleches = [fleche1, fleche2, fleche3]
+        if N % 2 != 0 :
+            x1 = x_mil 
+            y1 = y_mil+ L/2
+            x2 = x_mil
+            y2 = y_mil- L/2    
+        else :
+            x1 = x_mil + L/2
+            y1 = y_mil + L
+            x2 = x_mil + L/2
+            y2 = y_mil 
+
+        if (cpt==1):
+            fleche1 = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
+            fleche2 = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
+            fleche3 = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
+            
+            fleches = [fleche1, fleche2, fleche3]
+    
     plusieurs_fourmis()    
 
 #-------------------------fonction qui remet toutes les cases en blanc------------------------------------------
