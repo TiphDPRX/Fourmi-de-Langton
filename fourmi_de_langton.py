@@ -141,7 +141,8 @@ def fourmi_update():
 
 #--------------fonction qui permet de changer la couleur d'un carré et de changer la direction de la fleche------------
 def play ():
-    global fleche ,check_fleche, position_i, position_j , DIRECTION, grille , grille_canvas,cpt
+    global fleche ,check_fleche, position_i, position_j , DIRECTION, grille , grille_canvas,cpt, fleche1,fleche2,fleche3
+    
     if cpt == 1 :
         canvas.delete(fleche1)
         canvas.delete(fleche2)
@@ -210,15 +211,16 @@ def play ():
 
 # ----------------------fonction qui genere 4 couleurs---------------------------------------
 def couleur():
-    global cpt,fleche,normal,rapide,lent,position_i, position_j , DIRECTION,check_fleche,x1,x2,y1,y2,cpt_G_ORANGE ,cpt_D_BLANC ,cpt_G_BLEU ,cpt_D_ROUGE ,couleurs
-
+    global cpt,fleche,normal,rapide,lent,position_i, position_j , DIRECTION,check_fleche,x1,x2,y1,y2,cpt_G_ORANGE ,cpt_D_BLANC ,cpt_G_BLEU ,cpt_D_ROUGE ,couleurs,fleche1,fleche2,fleche3
+    """si on est sur du blanc ou du rouge on tourne a 90 a droite et on change la couleur en orange la 1ere fois et en bleu la 2eme fois"""
+    """si on est sur du orange ou du bleu on tourne a 90 a gauche et on change la couleur en rouge la 1ere fois et en blanc la 2eme fois"""
+    
+    """supprimer des fleches si elles existent"""
     if cpt == 1 :
         canvas.delete(fleche1)
         canvas.delete(fleche2)
         canvas.delete(fleche3)
-    cpt = 0
-    """si on est sur du blanc ou du rouge on tourne a 90 a droite et on change la couleur en orange la 1ere fois et en bleu la 2eme fois"""
-    """si on est sur du orange ou du bleu on tourne a 90 a gauche et on change la couleur en rouge la 1ere fois et en blanc la 2eme fois"""
+    cpt = 0 #initialiser a zero
     
     """verificationsi la fleche existe deja ou pas ou si elle a ete supprimé ou pas """
     if check_fleche == 0 :
@@ -322,7 +324,7 @@ def couleur():
 
 #-------------------------fonction qui remet toutes les cases en blanc------------------------------------------
 def efface():
-    global cpt, check_fleche
+    global cpt, check_fleche, fleche1,fleche2,fleche3
     """ Remplace tous les éléments de la grille en 0 """
     """ On utilisera cette fonction quand on voudra passer de noir et blanc à 4 couleurs"""
     """ On utilisera cette fonction quand on voudra passer de 2 couleurs(noir et blanc) à 4 couleurs"""
