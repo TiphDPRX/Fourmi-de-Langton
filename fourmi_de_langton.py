@@ -141,7 +141,12 @@ def fourmi_update():
 
 #--------------fonction qui permet de changer la couleur d'un carré et de changer la direction de la fleche------------
 def play ():
-    global fleche ,check_fleche, position_i, position_j , DIRECTION, grille , grille_canvas
+    global fleche ,check_fleche, position_i, position_j , DIRECTION, grille , grille_canvas,cpt
+    if cpt == 1 :
+        canvas.delete(fleche1)
+        canvas.delete(fleche2)
+        canvas.delete(fleche3)
+    cpt = 0
     """verifier si notre fleche existe deja ou pas ou est ce qu'elle a ete supprimé ou pas"""
     if check_fleche == 0 :
         x_mil = LARGEUR//2  #milieu de notre canvas en x
@@ -205,8 +210,13 @@ def play ():
 
 # ----------------------fonction qui genere 4 couleurs---------------------------------------
 def couleur():
-    global fleche,normal,rapide,lent,position_i, position_j , DIRECTION,check_fleche,x1,x2,y1,y2,cpt_G_ORANGE ,cpt_D_BLANC ,cpt_G_BLEU ,cpt_D_ROUGE ,couleurs
+    global cpt,fleche,normal,rapide,lent,position_i, position_j , DIRECTION,check_fleche,x1,x2,y1,y2,cpt_G_ORANGE ,cpt_D_BLANC ,cpt_G_BLEU ,cpt_D_ROUGE ,couleurs
 
+    if cpt == 1 :
+        canvas.delete(fleche1)
+        canvas.delete(fleche2)
+        canvas.delete(fleche3)
+    cpt = 0
     """si on est sur du blanc ou du rouge on tourne a 90 a droite et on change la couleur en orange la 1ere fois et en bleu la 2eme fois"""
     """si on est sur du orange ou du bleu on tourne a 90 a gauche et on change la couleur en rouge la 1ere fois et en blanc la 2eme fois"""
     
@@ -492,7 +502,7 @@ def retour ():
 # ------------------------------ fonction qui modifie les coordonnés de nos fourmis ------------------------------------
 
 def plusieurs_fourmis():
-    global fleche1, fleche2, fleche3, fleches, DIRECTIONS , normal, positions_i , positions_j, x1,x2,y1,y2
+    global fleche1, fleche2, fleche3, fleches, DIRECTIONS , normal, positions_i , positions_j, x1,x2,y1,y2, id_after
 
     for i in range (3) :
         if grille[positions_i[i]][positions_j[i]] == BLANC :
@@ -554,13 +564,14 @@ def plusieurs_fourmis():
             y1 = positions_i[i] *L + L/2
             canvas.coords ( fleches[i] , x1, y1, x2, y2 )
 
-    canvas.after(50 ,plusieurs_fourmis)
+    id_after=canvas.after(50 ,plusieurs_fourmis)
 
 #--------------------------------- creation des 3 fourmis -----------------------------------
 def demarrer_plusieurs_fourmis():
     global fleche1, fleche2, fleche3, fleches, DIRECTIONS ,cpt, check_fleche, fleche,position_i , position_j, x1,x2,y1,y2 
 
     cpt = cpt + 1 # pour pouvoir creer nos 3 fleches
+    
     if check_fleche == 1 :
         canvas.delete(fleche)
     check_fleche = 0
