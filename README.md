@@ -53,6 +53,3 @@ Si la fourmi se trouve sur du orange ou du bleu, elle pivote de 90 a gauche, cha
 ![Fourmi de Langton](fourmi_couleur.png)
 
 **Vous connaissez désormais toutes les subtilités de notre chère Fourmi de Langton. Have Fun !!!**
-
-
-
