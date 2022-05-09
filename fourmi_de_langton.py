@@ -143,11 +143,13 @@ def fourmi_update():
 def play ():
     global fleche ,check_fleche, position_i, position_j , DIRECTION, grille , grille_canvas,cpt, fleche1,fleche2,fleche3
     
+    """supprimer des fleches si elles existent"""
     if cpt == 1 :
         canvas.delete(fleche1)
         canvas.delete(fleche2)
         canvas.delete(fleche3)
-    cpt = 0
+    cpt = 0 #initialiser a zero
+
     """verifier si notre fleche existe deja ou pas ou est ce qu'elle a ete supprimé ou pas"""
     if check_fleche == 0 :
         x_mil = LARGEUR//2  #milieu de notre canvas en x
@@ -321,6 +323,105 @@ def couleur():
     couleurs = True  
 
     fourmi_update()
+
+# ------------------------------ fonction qui modifie les coordonnés de nos fourmis ------------------------------------
+
+def plusieurs_fourmis():
+    global fleche1, fleche2, fleche3, fleches, DIRECTIONS , normal, positions_i , positions_j, x1,x2,y1,y2, id_after
+
+    for i in range (3) :
+        if grille[positions_i[i]][positions_j[i]] == BLANC :
+            grille[positions_i[i]][positions_j[i]] = NOIR 
+            canvas.itemconfigure( grille_canvas[positions_i[i]][positions_j[i]] ,  fill = "black")
+
+            """changement de direction si la couleur du carré est blanc"""
+            if DIRECTIONS[i] == NORD:
+                DIRECTIONS[i] = EST
+                positions_j[i] = (positions_j[i]+1)%N
+            elif DIRECTIONS[i] == SUD:
+                DIRECTIONS[i] = OUEST
+                positions_j[i] = (positions_j[i]-1)%N
+            elif DIRECTIONS[i] == EST:
+                DIRECTIONS[i] = SUD
+                positions_i[i] = (positions_i[i]+1)%N
+            elif DIRECTIONS[i] == OUEST:
+                DIRECTIONS[i] = NORD
+                positions_i[i] = (positions_i[i]-1)%N 
+        else :
+            grille[positions_i[i]][positions_j[i]] = BLANC 
+            canvas.itemconfigure(grille_canvas[positions_i[i]][positions_j[i]], fill = "white")
+
+            if DIRECTIONS[i] == NORD:
+                positions_j[i] = (positions_j[i]-1)%N
+                DIRECTIONS[i] = OUEST   
+            elif DIRECTIONS[i] == SUD:
+                positions_j[i] = (positions_j[i]+1)%N     
+                DIRECTIONS[i] = EST
+            elif DIRECTIONS[i] == EST:
+                positions_i[i] = (positions_i[i]-1)%N
+                DIRECTIONS[i] = NORD
+            elif DIRECTIONS[i] == OUEST:
+                positions_i[i] = (positions_i[i]+1)%N
+                DIRECTIONS[i] = SUD
+        
+        if DIRECTIONS[i] == NORD:
+            x1 = positions_j[i] * L + L/2   
+            y1 = positions_i[i] *L + L
+            x2 = positions_j[i] * L + L/2
+            y2 = positions_i[i] *L 
+            canvas.coords ( fleches[i] , x1, y1, x2, y2 )
+        elif DIRECTIONS[i] == SUD:
+            x2 = positions_j[i] * L + L/2   
+            y2 = positions_i[i] *L + L
+            x1 = positions_j[i] * L + L/2
+            y1 = positions_i[i] *L 
+            canvas.coords ( fleches[i] , x1, y1, x2, y2 )  
+        elif DIRECTIONS[i] == EST:
+            x1 = positions_j[i] * L 
+            y1 = positions_i[i] *L + L/2
+            x2 = positions_j[i] * L + L 
+            y2 = positions_i[i] *L + L/2
+            canvas.coords ( fleches[i] , x1, y1, x2, y2 )
+        elif DIRECTIONS[i] == OUEST:
+            x2 = positions_j[i] * L  
+            y2= positions_i[i] *L + L/2
+            x1 = positions_j[i] * L + L
+            y1 = positions_i[i] *L + L/2
+            canvas.coords ( fleches[i] , x1, y1, x2, y2 )
+
+    id_after=canvas.after(50 ,plusieurs_fourmis)
+
+#--------------------------------- creation des 3 fourmis -----------------------------------
+def demarrer_plusieurs_fourmis():
+    global fleche1, fleche2, fleche3, fleches, DIRECTIONS ,cpt, check_fleche, fleche,position_i , position_j, x1,x2,y1,y2 
+
+    cpt = cpt + 1 # pour pouvoir creer nos 3 fleches
+    
+    if check_fleche == 1 :
+        canvas.delete(fleche)
+    check_fleche = 0
+
+    x_mil = LARGEUR//2  
+    y_mil = HAUTEUR//2  
+
+    if N % 2 != 0 :
+        x1 = x_mil 
+        y1 = y_mil+ L/2
+        x2 = x_mil
+        y2 = y_mil- L/2    
+    else :
+        x1 = x_mil + L/2
+        y1 = y_mil + L
+        x2 = x_mil + L/2
+        y2 = y_mil 
+
+    if (cpt==1):
+        fleche1 = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
+        fleche2 = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
+        fleche3 = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
+        
+        fleches = [fleche1, fleche2, fleche3]
+    plusieurs_fourmis()    
 
 #-------------------------fonction qui remet toutes les cases en blanc------------------------------------------
 def efface():
@@ -500,105 +601,6 @@ def retour ():
     
     fourmi_update()
 
-
-# ------------------------------ fonction qui modifie les coordonnés de nos fourmis ------------------------------------
-
-def plusieurs_fourmis():
-    global fleche1, fleche2, fleche3, fleches, DIRECTIONS , normal, positions_i , positions_j, x1,x2,y1,y2, id_after
-
-    for i in range (3) :
-        if grille[positions_i[i]][positions_j[i]] == BLANC :
-            grille[positions_i[i]][positions_j[i]] = NOIR 
-            canvas.itemconfigure( grille_canvas[positions_i[i]][positions_j[i]] ,  fill = "black")
-
-            """changement de direction si la couleur du carré est blanc"""
-            if DIRECTIONS[i] == NORD:
-                DIRECTIONS[i] = EST
-                positions_j[i] = (positions_j[i]+1)%N
-            elif DIRECTIONS[i] == SUD:
-                DIRECTIONS[i] = OUEST
-                positions_j[i] = (positions_j[i]-1)%N
-            elif DIRECTIONS[i] == EST:
-                DIRECTIONS[i] = SUD
-                positions_i[i] = (positions_i[i]+1)%N
-            elif DIRECTIONS[i] == OUEST:
-                DIRECTIONS[i] = NORD
-                positions_i[i] = (positions_i[i]-1)%N 
-        else :
-            grille[positions_i[i]][positions_j[i]] = BLANC 
-            canvas.itemconfigure(grille_canvas[positions_i[i]][positions_j[i]], fill = "white")
-
-            if DIRECTIONS[i] == NORD:
-                positions_j[i] = (positions_j[i]-1)%N
-                DIRECTIONS[i] = OUEST   
-            elif DIRECTIONS[i] == SUD:
-                positions_j[i] = (positions_j[i]+1)%N     
-                DIRECTIONS[i] = EST
-            elif DIRECTIONS[i] == EST:
-                positions_i[i] = (positions_i[i]-1)%N
-                DIRECTIONS[i] = NORD
-            elif DIRECTIONS[i] == OUEST:
-                positions_i[i] = (positions_i[i]+1)%N
-                DIRECTIONS[i] = SUD
-        
-        if DIRECTIONS[i] == NORD:
-            x1 = positions_j[i] * L + L/2   
-            y1 = positions_i[i] *L + L
-            x2 = positions_j[i] * L + L/2
-            y2 = positions_i[i] *L 
-            canvas.coords ( fleches[i] , x1, y1, x2, y2 )
-        elif DIRECTIONS[i] == SUD:
-            x2 = positions_j[i] * L + L/2   
-            y2 = positions_i[i] *L + L
-            x1 = positions_j[i] * L + L/2
-            y1 = positions_i[i] *L 
-            canvas.coords ( fleches[i] , x1, y1, x2, y2 )  
-        elif DIRECTIONS[i] == EST:
-            x1 = positions_j[i] * L 
-            y1 = positions_i[i] *L + L/2
-            x2 = positions_j[i] * L + L 
-            y2 = positions_i[i] *L + L/2
-            canvas.coords ( fleches[i] , x1, y1, x2, y2 )
-        elif DIRECTIONS[i] == OUEST:
-            x2 = positions_j[i] * L  
-            y2= positions_i[i] *L + L/2
-            x1 = positions_j[i] * L + L
-            y1 = positions_i[i] *L + L/2
-            canvas.coords ( fleches[i] , x1, y1, x2, y2 )
-
-    id_after=canvas.after(50 ,plusieurs_fourmis)
-
-#--------------------------------- creation des 3 fourmis -----------------------------------
-def demarrer_plusieurs_fourmis():
-    global fleche1, fleche2, fleche3, fleches, DIRECTIONS ,cpt, check_fleche, fleche,position_i , position_j, x1,x2,y1,y2 
-
-    cpt = cpt + 1 # pour pouvoir creer nos 3 fleches
-    
-    if check_fleche == 1 :
-        canvas.delete(fleche)
-    check_fleche = 0
-
-    x_mil = LARGEUR//2  
-    y_mil = HAUTEUR//2  
-
-    if N % 2 != 0 :
-        x1 = x_mil 
-        y1 = y_mil+ L/2
-        x2 = x_mil
-        y2 = y_mil- L/2    
-    else :
-        x1 = x_mil + L/2
-        y1 = y_mil + L
-        x2 = x_mil + L/2
-        y2 = y_mil 
-
-    if (cpt==1):
-        fleche1 = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
-        fleche2 = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
-        fleche3 = canvas.create_line ( (x1, y1), (x2, y2), fill = COULEUR_FLECHE, width = 5, smooth = True, arrow="last", arrowshape = (5,6,2) )
-        
-        fleches = [fleche1, fleche2, fleche3]
-    plusieurs_fourmis()
 
 #---------------------  fonction enregistrer une sequence -------------------------------------
 def enregistre():
