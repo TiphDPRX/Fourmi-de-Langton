@@ -93,7 +93,7 @@ def environnement():
     for i in range(N):
         for j in range(N):
             x, y = j*L , i*L 
-            carre = canvas.create_rectangle( (x,y), (x + L, y + L), fill="white")
+            carre = canvas.create_rectangle( (x,y), (x + L, y + L), fill="white", outline="black")
             grille[i][j] = BLANC
             grille_canvas[i][j] = carre
 
